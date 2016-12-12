@@ -1,0 +1,347 @@
+Start transaction ABAP Dictionary (SE11) and create domain ZBOPF_TIMESTAMP
+ - Short Description: Time stamp consisting of date and time
+ - Tab strip Definition
+    - Data Type       : DEC
+    - No. Characters  : 000015
+    - Output Length   : 000019
+    - Convers. Routine: TSTLC
+ - Activate, assign ZBOPF_TIMESTAMP to package ZBOPF_TRACKER and leave the transaction.
+
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Data Element) ZBOPF_TRACKER_BO_KEY
+ - Short Description: BOBF tracker bo key
+ - Tab strip Data Type
+    - Elementary Type - Domain: /BOBF/CONF_KEY
+ - Tab strip Field Label
+    - Short Length     : 06
+    - Short Field Label: BO key
+    - Medium Length     : 06
+    - Medium Field Label: BO key
+    - Long Length     : 06
+    - Long Field Label: BO key
+    - Heading Length     : 06
+    - Heading Field Label: BO key
+ - Activate, assign ZBOPF_TRACKER_BO_KEY to package ZBOPF_TRACKER and leave the transaction.
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Data Element) ZBOPF_TRACKER_FLAG_CREATE
+ - Short Description: BOBF tracker create flag
+ - Tab strip Data Type
+    - Elementary Type - Domain: FLAG
+ - Tab strip Field Label
+    - Short Length     : 10
+    - Short Field Label: On Create
+    - Medium Length     : 20
+    - Medium Field Label: Track create
+    - Long Length     : 40
+    - Long Field Label: Track create
+    - Heading Length     : 55
+    - Heading Field Label: Track create
+ - Activate, assign ZBOPF_TRACKER_FLAG_CREATE to package ZBOPF_TRACKER and leave the transaction.
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Data Element) ZBOPF_TRACKER_FLAG_DELETE
+ - Short Description: BOBF tracker delete flag
+ - Tab strip Data Type
+    - Elementary Type - Domain: FLAG
+ - Tab strip Field Label
+    - Short Length     : 10
+    - Short Field Label: On Delete
+    - Medium Length     : 20
+    - Medium Field Label: Track delete
+    - Long Length     : 40
+    - Long Field Label: Track delete
+    - Heading Length     : 55
+    - Heading Field Label: Track delete
+ - Activate, assign ZBOPF_TRACKER_FLAG_DELETE to package ZBOPF_TRACKER and leave the transaction.
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Data Element) ZBOPF_TRACKER_FLAG_UPDATE
+ - Short Description: BOBF tracker update flag
+ - Tab strip Data Type
+    - Elementary Type - Domain: FLAG
+ - Tab strip Field Label
+    - Short Length     : 10
+    - Short Field Label: On Update
+    - Medium Length     : 20
+    - Medium Field Label: Track update
+    - Long Length     : 40
+    - Long Field Label: Track update
+    - Heading Length     : 55
+    - Heading Field Label: Track update
+ - Activate, assign ZBOPF_TRACKER_FLAG_UPDATE to package ZBOPF_TRACKER and leave the transaction.
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Data Element) ZBOPF_TRACKER_FLAG_WATCHPOINT
+ - Short Description: BOBF tracker watchpoints enable flag
+ - Tab strip Data Type
+    - Elementary Type - Domain: FLAG
+ - Tab strip Field Label
+    - Short Length     : 10
+    - Short Field Label: Watchpoint
+    - Medium Length     : 20
+    - Medium Field Label: Watchpoints enable
+    - Long Length     : 40
+    - Long Field Label: Watchpoints enable
+    - Heading Length     : 55
+    - Heading Field Label: Watchpoints enable
+ - Activate, assign ZBOPF_TRACKER_FLAG_WATCHPOINT to package ZBOPF_TRACKER and leave the transaction.
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Data Element) ZBOPF_TRACKER_LOG_KEY
+ - Short Description: BOBF tracker log record key
+ - Tab strip Data Type
+    - Elementary Type - Domain: /BOBF/CONF_KEY
+ - Tab strip Field Label
+    - Short Length     : 10
+    - Short Field Label: Log key
+    - Medium Length     : 10
+    - Medium Field Label: Log key
+    - Long Length     : 10
+    - Long Field Label: Log key
+    - Heading Length     : 10
+    - Heading Field Label: Log key
+ - Activate, assign ZBOPF_TRACKER_LOG_KEY to package ZBOPF_TRACKER and leave the transaction.
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Data Element) ZBOPF_TRACKER_NODE_KEY
+ - Short Description: BOBF tracker node key
+ - Tab strip Data Type
+    - Elementary Type - Domain: /BOBF/CONF_KEY
+ - Tab strip Field Label
+    - Short Length     : 08
+    - Short Field Label: Node key
+    - Medium Length     : 08
+    - Medium Field Label: Node key
+    - Long Length     : 08
+    - Long Field Label: Node key
+    - Heading Length     : 08
+    - Heading Field Label: Node key
+ - Activate, assign ZBOPF_TRACKER_NODE_KEY to package ZBOPF_TRACKER and leave the transaction.
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Data Element) ZBOPF_TRACKER_RECORD_KEY
+ - Short Description: BOBF tracker record key
+ - Tab strip Data Type
+    - Elementary Type - Domain: /BOBF/CONF_KEY
+ - Tab strip Field Label
+    - Short Length     : 10
+    - Short Field Label: Record key
+    - Medium Length     : 10
+    - Medium Field Label: Record key
+    - Long Length     : 10
+    - Long Field Label: Record key
+    - Heading Length     : 10
+    - Heading Field Label: Record key
+ - Activate, assign ZBOPF_TRACKER_RECORD_KEY to package ZBOPF_TRACKER and leave the transaction.
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Data Element) ZBOPF_TRACKER_TIME
+ - Short Description: Operation Time
+ - Tab strip Data Type
+    - Elementary Type - Domain: ZBOPF_TIMESTAMP
+ - Tab strip Field Label
+    - Short Length     : 10
+    - Short Field Label: Oper. time
+    - Medium Length     : 19
+    - Medium Field Label: Operation Time
+    - Long Length     : 19
+    - Long Field Label: Operation Time
+    - Heading Length     : 19
+    - Heading Field Label: Operation Time
+ - Activate, assign ZBOPF_TRACKER_TIME to package ZBOPF_TRACKER and leave the transaction.
+
+
+
+
+
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Structure) ZBOPF_S_CHANGE_TRACKER_SET
+ - Short Description: BOPF Change tracker settings
+ - Tab strip Components
+    - Insert at the beginning of the structure:
+    - Component: UNAME
+        Typing Method : Types
+        Component Type: SYST_UNAME
+    - Component: BO_KEY
+        Typing Method : Types
+        Component Type: ZBOPF_TRACKER_BO_KEY
+    - Component: NODE_KEY
+        Typing Method : Types
+        Component Type: ZBOPF_TRACKER_NODE_KEY
+    - Component: RECORD_KEY
+        Typing Method : Types
+        Component Type: ZBOPF_TRACKER_RECORD_KEY
+    - Component: FIELD_NAME
+        Typing Method : Types
+        Component Type: /BOFU/FIELD_NAME
+    - Component: TRACK_CREATE
+        Typing Method : Types
+        Component Type: ZBOPF_TRACKER_FLAG_CREATE
+    - Component: TRACK_DELETE
+        Typing Method : Types
+        Component Type: ZBOPF_TRACKER_FLAG_DELETE
+    - Component: TRACK_UPDATE
+        Typing Method : Types
+        Component Type: ZBOPF_TRACKER_FLAG_UPDATE
+    - Component: WATCHP_ENABLE
+        Typing Method : Types
+        Component Type: ZBOPF_TRACKER_FLAG_WATCHPOINT
+ - Menu Extras -> Enhancement Category...
+    - Enhancement Category for Structure: Can Be Enhanced (Deep)
+    - Confirm the popup
+ - Activate, assign ZBOPF_S_CHANGE_TRACKER_SET to package ZBOPF_TRACKER and leave the transaction.
+
+
+Start transaction ABAP Dictionary (SE11) and create Data Type (Table Type) ZBOPF_T_CHANGE_TRACKER_SET
+ - Short text: BOPF Change Log settings
+ - Tab strip Line Type
+    - Line Type: ZBOPF_S_CHANGE_TRACKER_SET
+ - Tab strip Initialization and Access
+    - Access: Standard Table
+ - Tab strip Primary Key
+    - Key definition: Standard key
+    - Key category  : Non-unique
+ - Tab strip Secondary Key
+    - Press button Create Secondary Key
+    - Secondary Key: NODE
+      - Short Description: Node change settings
+      - Key Access: Non-unique sorted
+      - Key Definition: Key Components
+      - Key Component: UNAME
+      - Key Component: BO_KEY
+      - Key Component: NODE_KEY
+    - Press button Create Secondary Key
+    - Secondary Key: NODE_FIELD
+      - Short Description: Node + field_name
+      - Key Access: Unique sorted
+      - Key Definition: Key Components
+      - Key Component: UNAME
+      - Key Component: BO_KEY
+      - Key Component: NODE_KEY
+      - Key Component: FIELD_NAME
+ - Activate, assign ZBOPF_T_CHANGE_TRACKER_SET to package ZBOPF_TRACKER and leave the transaction.
+ 
+ 
+Start transaction ABAP Dictionary (SE11) and create Database table ZBOPF_D_TRACK
+ - Delivery Class: A
+ - Data Browser/Table View Maint.: Display/Maintenance Allowed
+ Create following fields:
+	Field name: MANDT	
+		Data element: MANDT
+		Key: True
+		Initial values: True
+	Field name: UNAME	
+		Data element: SYST_UNAME
+		Key: True
+		Initial values: True
+	Field name: BO_KEY	
+		Data element: ZBOPF_TRACKER_BO_KEY
+		Key: True
+		Initial values: True		
+	Field name: NODE_KEY	
+		Data element: ZBOPF_TRACKER_NODE_KEY
+		Key: True
+		Initial values: True		
+	Field name: RECORD_KEY	
+		Data element: ZBOPF_TRACKER_RECORD_KEY	
+		Key: True
+		Initial values: True
+	Field name: FIELD_NAME	
+		Data element: /BOFU/FIELD_NAME
+		Key: True
+		Initial values: True		
+	Field name: TRACK_CREATE	
+		Data element: ZBOPF_TRACKER_FLAG_CREATE
+		Key: False
+		Initial values: True		
+	Field name: TRACK_DELETE	
+		Data element: ZBOPF_TRACKER_FLAG_DELETE
+		Key: False
+		Initial values: True		
+	Field name: TRACK_UPDATE	
+		Data element: ZBOPF_TRACKER_FLAG_UPDATE
+		Key: False
+		Initial values: True
+	Field name: WATCHP_ENABLE	
+		Data element: ZBOPF_TRACKER_FLAG_WATCHPOINT
+		Key: False
+		Initial values: True
+	 - Activate, assign ZBOPF_D_TRACK to package ZBOPF_TRACKER and leave the transaction.
+	 
+
+Start transaction ABAP Dictionary (SE11) and create Database table ZBOPF_D_T_LOG
+ - Delivery Class: A
+ - Data Browser/Table View Maint.: Display/Maintenance Allowed
+ Create following fields:
+	Field name: MANDT	
+		Data element: MANDT
+		Key: True
+		Initial values: True
+	Field name: LOG_KEY	
+		Data element: ZBOPF_TRACKER_LOG_KEY
+		Key: True
+		Initial values: True
+	Field name: BO_KEY		
+		Data element: ZBOPF_TRACKER_BO_KEY
+		Key: False
+		Initial values: True
+	Field name: NODE_KEY		
+		Data element: ZBOPF_TRACKER_NODE_KEY
+		Key: False
+		Initial values: True
+	Field name: FIELD_NAME		
+		Data element: /BOFU/FIELD_NAME
+		Key: False
+		Initial values: True
+	Field name: OPERATION_TIME		
+		Data element: ZBOPF_TRACKER_TIME
+		Key: False
+		Initial values: True
+	Field name: NEW_VALUE		
+		Data element: CHAR80
+		Key: False
+		Initial values: True
+	Field name: RECORD_KEY		
+		Data element: ZBOPF_TRACKER_RECORD_KEY
+		Key: False
+		Initial values: True
+	Field name: ROOT_KEY		
+		Data element: /BOBF/CONF_KEY
+		Key: False
+		Initial values: True
+	Field name: MAINPROGRAM		
+		Data element: SYREPID
+		Key: False
+		Initial values: True
+	Field name: INCLUDE		
+		Data element: INCLUDE
+		Key: False
+		Initial values: True
+	Field name: LINE		
+		Data element: INT4
+		Key: False
+		Initial values: True
+	Field name: BLOCKTYPE		
+		Data element: CHAR12
+		Key: False
+		Initial values: True
+	Field name: BLOCKNAME		
+		Data element: CHAR100
+		Key: False
+		Initial values: True
+	Field name: CHANGE_MODE		
+		Data element: /BOBF/CONF_CHANGE_MODE
+		Key: False
+		Initial values: True
+	Activate, assign ZBOPF_D_T_LOG to package ZBOPF_TRACKER and leave the transaction.
+	 
+
+Start transaction SE93 and create transaction ZBOPF_TRACKER_CONFIG as Transaction with parameters(parameter transaction).
+	- Default value for transaction: SE16
+	- Default parameters:
+		Name of screen field: DATABROWSE-TABLENAME, Value: ZBOPF_D_TRACK
+		Name of screen field: CALLING_TRANSACTION, Value: X
+	Activate, assign ZBOPF_TRACKER_CONFIG to package ZBOPF_TRACKER and leave the transaction.
+
+
+Start transaction SE24 and create Usual ABAP class with name ZBOPF_CL_CHANGE_TRACKER_ADN.
+-Provide source code from ZBOPF_CL_CHANGE_TRACKER_ADN.abap.
+	Activate, assign ZBOPF_CL_CHANGE_TRACKER_ADN to package ZBOPF_TRACKER and leave the transaction.
+	
+
+Start transaction SE38 and create report with name ZBOPF_CHANGE_TRACKER_LOG.
+	-Provide source code from ZBOPF_CHANGE_TRACKER_LOG.abap.
+	Activate, assign ZBOPF_CHANGE_TRACKER_LOG to package ZBOPF_TRACKER and leave the transaction.
