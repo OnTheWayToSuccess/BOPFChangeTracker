@@ -1,4 +1,4 @@
-You can use SAPLink, to install CT.
+You can use SAPLink, to install CT, by importing NUGG_ZBOBF_TRACKER_SAPLINK.nugg.
 Link to user documentation - https://wiki.scn.sap.com/wiki/display/ABAP/SAPlink+User+Documentation
 Initial namespace - ZBOBF*
 Manual part of installation:
