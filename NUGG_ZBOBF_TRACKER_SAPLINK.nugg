@@ -1,0 +1,1971 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="NUGG_ZBOBF_TRACKER_SAPLINK">
+ <CLAS CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" VERSION="1" LANGU="E" DESCRIPT="Debug Addon" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS">
+  <types CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="TY_WATCHPOINT" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " TYPTYPE="4" SRCROW1="4 " SRCCOLUMN1="4 " SRCROW2="10 " SRCCOLUMN2="25 " TYPESRC_LENG="0 " TYPESRC="BEGIN OF ty_watchpoint,
+        bo_key    TYPE /bobf/conf_key,
+        node_key  TYPE /bobf/conf_key,
+        on_create TYPE boole_d,
+        on_delete TYPE boole_d,
+        on_update TYPE boole_d,
+      END OF ty_watchpoint
+"/>
+  <types CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="TT_WATCHPOINT" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="2 " TYPTYPE="4" SRCROW1="12 " SRCCOLUMN1="4 " SRCROW2="12 " SRCCOLUMN2="110 " TYPESRC_LENG="0 " TYPESRC="tt_watchpoint TYPE SORTED TABLE OF ty_watchpoint WITH NON-UNIQUE KEY primary_key COMPONENTS bo_key node_key
+"/>
+  <types CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="LT_BOBF_CHANGE_TRACKER_LOG" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " TYPTYPE="4" SRCROW1="17 " SRCCOLUMN1="4 " SRCROW2="17 " SRCCOLUMN2="57 " TYPESRC_LENG="0 " TYPESRC="lt_bobf_change_tracker_log TYPE TABLE OF zbopf_d_t_log
+"/>
+  <types CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="TS_BOBF_CHANGE_TRACKER_LOG" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="2 " TYPTYPE="1" TYPE="ZBOPF_D_T_LOG" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <implementing CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/IF_FRW_ADDON" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="1 "/>
+  <implementing CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/IF_FRW_ADDON_OPTIONAL" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="6 "/>
+  <implementing CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/IF_FRW_MESSAGE" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="5 "/>
+  <implementing CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/IF_TRA_SERV_MGR_COMPL" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="3 "/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class
+DEFINE watchpoint_on_create.
+  IF check_watchpoint_on_create(
+       iv_node_key = &amp;1
+    ) = abap_true.
+    IF go_breakpoint_handler IS BOUND.
+      go_breakpoint_handler-&gt;on_breakpoint_reached(
+        iv_bo_key = mv_bo_key
+        iv_node_key = &amp;1
+      ).
+    ELSE.
+      BREAK-POINT ##NO_BREAK.
+    ENDIF.
+  ENDIF.
+END-OF-DEFINITION.
+
+DEFINE watchpoint_on_delete.
+  IF check_watchpoint_on_delete(
+       iv_node_key = &amp;1
+    ) = abap_true.
+    IF go_breakpoint_handler IS BOUND.
+      go_breakpoint_handler-&gt;on_breakpoint_reached(
+        iv_bo_key = mv_bo_key
+        iv_node_key = &amp;1
+      ).
+    ELSE.
+      BREAK-POINT ##NO_BREAK.
+    ENDIF.
+  ENDIF.
+END-OF-DEFINITION.
+
+DEFINE watchpoint_on_update.
+  IF check_watchpoint_on_update(
+       iv_node_key = &amp;1
+    ) = abap_true.
+    IF go_breakpoint_handler IS BOUND.
+      go_breakpoint_handler-&gt;on_breakpoint_reached(
+        iv_bo_key = mv_bo_key
+        iv_node_key = &amp;1
+      ).
+    ELSE.
+      BREAK-POINT ##NO_BREAK.
+    ENDIF.
+  ENDIF.
+END-OF-DEFINITION.</localMacros>
+  <typeUsage CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" TYPEGROUP="ABAP" VERSION="1" TPUTYPE="0" IMPLICIT="X"/>
+  <forwardDeclaration>ABAP</forwardDeclaration>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CV_ADDON_CLASS" VERSION="1" LANGU="E" DESCRIPT="addon class" EXPOSURE="2" STATE="1" EDITORDER="3 " ATTDECLTYP="1" ATTVALUE="&apos;ZBOBF_CL_CHANGE_TRACKER_ADN&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="SEOCLSNAME" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CV_ADDON_NAME" VERSION="1" LANGU="E" DESCRIPT="Addon name" EXPOSURE="2" STATE="1" EDITORDER="2 " ATTDECLTYP="2" ATTVALUE="&apos;ZBOBF_CHANGE_TRACKER_ADN&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="/BOBF/OBM_NAME" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CV_SECOND_CONNECTION" VERSION="1" LANGU="E" DESCRIPT="30 Characters" EXPOSURE="0" STATE="1" EDITORDER="9 " ATTDECLTYP="2" ATTVALUE="&apos;R/3*BOBFTRACKLOG&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="CHAR30" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="GO_BREAKPOINT_HANDLER" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="6 " ATTDECLTYP="1" ATTEXPVIRT="0" TYPTYPE="3" TYPE="/BOBF/IF_TOOL_BREAKPOINT_HNDL" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="GT_CHANGE_LOG_CONTAINER" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " ATTDECLTYP="1" ATTEXPVIRT="0" TYPTYPE="1" TYPE="LT_BOBF_CHANGE_TRACKER_LOG" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="GT_CHANGE_TRACKER_SETTINGS" VERSION="1" LANGU="E" DESCRIPT="BOPF Change Log settings" EXPOSURE="0" STATE="1" EDITORDER="7 " ATTDECLTYP="1" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZBOBF_T_CHANGE_TRACKER_SET" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="GT_WATCHPOINT" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="3 " ATTDECLTYP="1" ATTEXPVIRT="0" TYPTYPE="1" TYPE="TT_WATCHPOINT" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="GV_IS_IN_TEST_UI" VERSION="1" LANGU="E" DESCRIPT="Boolean Variable (X=True, -=False, Space=Unknown)" EXPOSURE="0" STATE="1" EDITORDER="10 " ATTDECLTYP="1" ATTVALUE="ABAP_FALSE" ATTEXPVIRT="0" TYPTYPE="1" TYPE="BOOLEAN" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="GV_SETTINGS_READ" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="8 " ATTDECLTYP="1" ATTEXPVIRT="0" TYPTYPE="1" TYPE="FLAG" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="MO_ORIGINAL_INTERNAL_ACCESS" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="5 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="/BOBF/CL_FRW_INT_ACCESS" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="MO_ORIGINAL_MESSAGE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="/BOBF/IF_FRW_MESSAGE" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="MO_ORIGINAL_SERVICE_MANAGER" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="4 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="/BOBF/IF_TRA_SERV_MGR_COMPL" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="MV_BO_KEY" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="2 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="/BOBF/CONF_KEY" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <inheritance CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" STATE="1">
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_CHECK~CHECK_AND_DETERMINE" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_MODIFY~CREATE" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_MODIFY~DELETE" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_MODIFY~DO_ACTION" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_MODIFY~DO_MODIFY" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_MODIFY~END_MODIFY" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_MODIFY~NOTIFY_ASSOCIATION_CHANGE" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_MODIFY~NOTIFY_CHANGE" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_MODIFY~NOTIFY_PROPERTY_CHANGE" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_MODIFY~UPDATE" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_QUERY~QUERY" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_QUERY~RETRIEVE_DEFAULT_PARAM" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_READ~COMPARE" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_READ~CONVERT_ALTERN_KEY" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_READ~GET_ROOT_KEY" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_READ~RETRIEVE" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="/BOBF/IF_FRW_READ~RETRIEVE_BY_ASSOCIATION" EXPOSURE="0"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="END_MODIFY" EXPOSURE="1"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="INVALIDATE" EXPOSURE="1"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="NOTIFY_CHANGE_INTERNAL" EXPOSURE="1"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="SET_CONTEXT" EXPOSURE="1"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="SET_CURRENT_STATE" EXPOSURE="1"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="SET_EDIT_MODE" EXPOSURE="1"/>
+   <redefinition CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" REFCLSNAME="/BOBF/CL_FRW_INT_ACCESS" VERSION="1" MTDNAME="SET_LAST_STATE" EXPOSURE="1"/>
+  </inheritance>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MODIFY~CREATE">
+   <source>method /BOBF/IF_FRW_MODIFY~CREATE.
+
+    &quot; delegate to original internal access instance
+    mo_original_internal_access-&gt;/bobf/if_frw_modify~create(
+      EXPORTING
+        iv_node            = iv_node
+        iv_key             = iv_key
+        iv_node_cat        = iv_node_cat
+        is_data            = is_data
+        it_changed_fields  = it_changed_fields
+        iv_assoc_key       = iv_assoc_key
+        iv_source_node_key = iv_source_node_key
+        iv_source_key      = iv_source_key
+        iv_root_key        = iv_root_key
+      IMPORTING
+        ev_key             = ev_key ).
+
+    synchronize_internal_access( ).
+
+    track_modifications(
+      it_modify = VALUE #( (
+        change_mode    = /bobf/if_frw_c=&gt;sc_modify_create
+        node           = iv_node
+        key            = iv_key
+        node_cat       = iv_node_cat
+        data           = is_data
+        changed_fields = it_changed_fields
+        association    = iv_assoc_key
+        source_node    = iv_source_node_key
+        source_key     = iv_source_key
+        root_key       = iv_root_key ) )
+    ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MODIFY~DELETE">
+   <source>method /BOBF/IF_FRW_MODIFY~DELETE.
+
+    DATA:
+      lt_modif      TYPE /bobf/t_frw_modification,
+      lt_change_log TYPE lt_bobf_change_tracker_log.
+
+    &quot; delegate to original internal access instance
+    mo_original_internal_access-&gt;/bobf/if_frw_modify~delete(
+      EXPORTING
+        iv_node     = iv_node
+        iv_key      = iv_key
+        it_key      = it_key
+        iv_root_key = iv_root_key ).
+
+    synchronize_internal_access( ).
+
+    lt_modif = VALUE #( FOR ls_key IN it_key
+                        ( change_mode = /bobf/if_frw_c=&gt;sc_modify_delete
+                          node        = iv_node
+                          key         = ls_key-key
+                          root_key    = iv_root_key ) ).
+
+    IF iv_key IS NOT INITIAL.
+      INSERT VALUE #(
+        change_mode = /bobf/if_frw_c=&gt;sc_modify_delete
+        node        = iv_node
+        key         = iv_key
+        root_key    = iv_root_key ) INTO TABLE lt_modif.
+    ENDIF.
+
+    track_modifications( it_modify = lt_modif ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MODIFY~DO_ACTION">
+   <source>method /BOBF/IF_FRW_MODIFY~DO_ACTION.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_modify~do_action(
+      EXPORTING
+        iv_act_key    = iv_act_key
+        it_key        = it_key
+        is_parameters = is_parameters
+      IMPORTING
+        eo_message    = eo_message
+        et_failed_key = et_failed_key
+        eo_change     = eo_change
+        et_data       = et_data ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MODIFY~DO_MODIFY">
+   <source>method /BOBF/IF_FRW_MODIFY~DO_MODIFY.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_modify~do_modify( it_modification = it_modification ).
+
+    synchronize_internal_access( ).
+
+    track_modifications( it_modify = it_modification ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MODIFY~END_MODIFY">
+   <source>method /BOBF/IF_FRW_MODIFY~END_MODIFY.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_modify~end_modify(
+      EXPORTING
+        iv_process_immediately = iv_process_immediately
+      IMPORTING
+        eo_message             = eo_message
+        eo_change              = eo_change ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MODIFY~NOTIFY_ASSOCIATION_CHANGE">
+   <source>method /BOBF/IF_FRW_MODIFY~NOTIFY_ASSOCIATION_CHANGE.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_modify~notify_association_change(
+      EXPORTING
+        iv_node_key  = iv_node_key
+        iv_key       = iv_key
+        it_key       = it_key
+        iv_assoc_key = iv_assoc_key ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MODIFY~NOTIFY_CHANGE">
+   <source>method /BOBF/IF_FRW_MODIFY~NOTIFY_CHANGE.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_modify~notify_change(
+      EXPORTING
+        iv_node_key    = iv_node_key
+        iv_key         = iv_key
+        it_key         = it_key
+        iv_change_mode = iv_change_mode ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MODIFY~NOTIFY_PROPERTY_CHANGE">
+   <source>method /BOBF/IF_FRW_MODIFY~NOTIFY_PROPERTY_CHANGE.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_modify~notify_property_change(
+      EXPORTING
+        iv_node_key               = iv_node_key
+        iv_key                    = iv_key
+        it_key                    = it_key
+        iv_node_changed           = iv_node_changed
+        iv_node_attribute_changed = iv_node_attribute_changed
+        iv_association_changed    = iv_association_changed
+        iv_action_changed         = iv_action_changed ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MODIFY~UPDATE">
+   <source>method /BOBF/IF_FRW_MODIFY~UPDATE.
+
+    &quot; delegate to original internal access instance
+    mo_original_internal_access-&gt;/bobf/if_frw_modify~update(
+      EXPORTING
+        iv_node            = iv_node
+        iv_key             = iv_key
+        is_data            = is_data
+        it_changed_fields  = it_changed_fields
+        iv_root_key        = iv_root_key ).
+
+    synchronize_internal_access( ).
+
+    track_modifications(
+      it_modify = VALUE #( (
+        change_mode    = /bobf/if_frw_c=&gt;sc_modify_update
+        node           = iv_node
+        key            = iv_key
+        data           = is_data
+        changed_fields = it_changed_fields
+        root_key       = iv_root_key ) )
+    ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_READ~COMPARE">
+   <source>method /BOBF/IF_FRW_READ~COMPARE.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_read~compare(
+      EXPORTING
+        iv_node_key        = iv_node_key
+        it_key             = it_key
+        iv_fill_attributes = iv_fill_attributes
+        iv_scope           = iv_scope
+      IMPORTING
+        eo_change          = eo_change ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_READ~CONVERT_ALTERN_KEY">
+   <source>method /BOBF/IF_FRW_READ~CONVERT_ALTERN_KEY.
+
+    IF et_key IS SUPPLIED.
+      mo_original_internal_access-&gt;/bobf/if_frw_read~convert_altern_key(
+        EXPORTING
+          iv_node_key          = iv_node_key
+          iv_altkey_key        = iv_altkey_key
+          iv_target_altkey_key = iv_target_altkey_key
+          it_key               = it_key
+          iv_before_image      = iv_before_image
+          iv_invalidate_cache  = iv_invalidate_cache
+        IMPORTING
+          et_result            = et_result
+          et_key               = et_key ).
+    ELSE.
+      mo_original_internal_access-&gt;/bobf/if_frw_read~convert_altern_key(
+        EXPORTING
+          iv_node_key          = iv_node_key
+          iv_altkey_key        = iv_altkey_key
+          iv_target_altkey_key = iv_target_altkey_key
+          it_key               = it_key
+          iv_before_image      = iv_before_image
+          iv_invalidate_cache  = iv_invalidate_cache
+        IMPORTING
+          et_result            = et_result ).
+    ENDIF.
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_READ~GET_ROOT_KEY">
+   <source>method /BOBF/IF_FRW_READ~GET_ROOT_KEY.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_read~get_root_key(
+      EXPORTING
+        iv_node         = iv_node
+        it_key          = it_key
+        iv_before_image = iv_before_image
+      IMPORTING
+        et_target_key   = et_target_key
+        et_key_link     = et_key_link
+        et_failed_key   = et_failed_key ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_READ~RETRIEVE">
+   <source>method /BOBF/IF_FRW_READ~RETRIEVE.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_read~retrieve(
+      EXPORTING
+        iv_node                 = iv_node
+        it_key                  = it_key
+        iv_before_image         = iv_before_image
+        iv_fill_data            = iv_fill_data
+        it_requested_attributes = it_requested_attributes
+      IMPORTING
+        eo_message              = eo_message
+        et_data                 = et_data
+        et_failed_key           = et_failed_key
+        et_node_cat             = et_node_cat ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_READ~RETRIEVE_BY_ASSOCIATION">
+   <source>method /BOBF/IF_FRW_READ~RETRIEVE_BY_ASSOCIATION.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_read~retrieve_by_association(
+      EXPORTING
+        iv_node                 = iv_node
+        it_key                  = it_key
+        iv_association          = iv_association
+        is_parameters           = is_parameters
+        it_filtered_attributes  = it_filtered_attributes
+        iv_fill_data            = iv_fill_data
+        iv_before_image         = iv_before_image
+        it_requested_attributes = it_requested_attributes
+      IMPORTING
+        eo_message              = eo_message
+        et_data                 = et_data
+        et_key_link             = et_key_link
+        et_target_key           = et_target_key
+        et_failed_key           = et_failed_key ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_CHECK~CHECK_AND_DETERMINE">
+   <source>method /BOBF/IF_FRW_CHECK~CHECK_AND_DETERMINE.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_check~check_and_determine(
+      EXPORTING
+        iv_node_key    = iv_node_key
+        it_key         = it_key
+        iv_check_scope = iv_check_scope
+      IMPORTING
+        eo_message     = eo_message
+        eo_change      = eo_change ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_QUERY~QUERY">
+   <source>method /BOBF/IF_FRW_QUERY~QUERY.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_query~query(
+      EXPORTING
+        is_ctx                  = is_ctx
+        it_filter_key           = it_filter_key
+        it_selection_parameters = it_selection_parameters
+        io_query_authorities    = io_query_authorities
+        is_query_options        = is_query_options
+        io_query                = io_query
+        io_read                 = io_read
+        io_modify               = io_modify
+        iv_fill_data            = iv_fill_data
+        it_requested_attributes = it_requested_attributes
+      IMPORTING
+        eo_message              = eo_message
+        et_key                  = et_key
+        es_query_info           = es_query_info
+        et_data                 = et_data ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_QUERY~RETRIEVE_DEFAULT_PARAM">
+   <source>method /BOBF/IF_FRW_QUERY~RETRIEVE_DEFAULT_PARAM.
+
+    mo_original_internal_access-&gt;/bobf/if_frw_query~retrieve_default_param(
+      EXPORTING
+        is_ctx                  = is_ctx
+      CHANGING
+        ct_selection_parameters = ct_selection_parameters ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_ADDON~ADJUST_BOPF">
+   <source>method /BOBF/IF_FRW_ADDON~ADJUST_BOPF.
+
+    &quot; this addon don&apos;t replace the framework instance
+    RAISE EXCEPTION TYPE /bobf/cx_frw_fatal
+      EXPORTING
+        textid = /bobf/cx_frw_fatal=&gt;sc_application_error.
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_ADDON~ADJUST_CONFIGURATION">
+   <source>method /BOBF/IF_FRW_ADDON~ADJUST_CONFIGURATION.
+
+*    &quot; this addon don&apos;t replace the configuration
+*    RAISE EXCEPTION TYPE /bobf/cx_frw_fatal
+*      EXPORTING
+*        textid = /bobf/cx_frw_fatal=&gt;sc_application_error.
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_ADDON~ADJUST_SERV_MGR">
+   <source>method /BOBF/IF_FRW_ADDON~ADJUST_SERV_MGR.
+
+    DATA lo_addon TYPE REF TO zbobf_cl_change_tracker_adn.
+
+    IF check_test_ui( ).
+      gv_is_in_test_ui = abap_true.
+    ENDIF.
+
+    CHECK gv_is_in_test_ui = abap_false.
+    &quot; create an addon instance for this BO
+    CREATE OBJECT lo_addon
+      EXPORTING
+        iv_bo_key          = iv_bo_key
+        io_service_manager = co_serv_mgr.
+
+    &quot; return the addon instead of the original service manager
+    co_serv_mgr ?= lo_addon.
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_ADDON~ADJUST_TRANS_MGR">
+   <source>method /BOBF/IF_FRW_ADDON~ADJUST_TRANS_MGR.
+
+    &quot; this addon don&apos;t replace the transaction mgr
+    RAISE EXCEPTION TYPE /bobf/cx_frw_fatal
+      EXPORTING
+        textid = /bobf/cx_frw_fatal=&gt;sc_application_error.
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_ADDON~GET_BOPF">
+   <source>method /BOBF/IF_FRW_ADDON~GET_BOPF.
+
+    &quot; this addon don&apos;t replace the framework instance
+    RAISE EXCEPTION TYPE /bobf/cx_frw_fatal
+      EXPORTING
+        textid = /bobf/cx_frw_fatal=&gt;sc_application_error.
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_ADDON~GET_SERV_MGR">
+   <source>method /BOBF/IF_FRW_ADDON~GET_SERV_MGR.
+
+    eo_serv_mgr = mo_original_service_manager.
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_ADDON~GET_TRANS_MGR">
+   <source>method /BOBF/IF_FRW_ADDON~GET_TRANS_MGR.
+
+    &quot; this addon don&apos;t replace the transaction manager
+    RAISE EXCEPTION TYPE /bobf/cx_frw_fatal
+      EXPORTING
+        textid = /bobf/cx_frw_fatal=&gt;sc_application_error.
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~CHECK_ACTION">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~CHECK_ACTION.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~check_action(
+      EXPORTING
+        iv_act_key           = iv_act_key
+        it_key               = it_key
+        is_parameters        = is_parameters
+      IMPORTING
+        eo_message           = eo_message
+        et_failed_key        = et_failed_key
+        et_failed_action_key = et_failed_action_key ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~CHECK_AND_DETERMINE">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~CHECK_AND_DETERMINE.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~check_and_determine(
+      EXPORTING
+        iv_node_key    = iv_node_key
+        it_key         = it_key
+        iv_check_scope = iv_check_scope
+      IMPORTING
+        eo_change      = eo_change
+        eo_message     = eo_message
+        ev_rejected    = ev_rejected ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~CHECK_CONSISTENCY">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~CHECK_CONSISTENCY.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~check_consistency(
+      EXPORTING
+        iv_node_key    = iv_node_key
+        it_key         = it_key
+        iv_check_scope = iv_check_scope
+        iv_check_group = iv_check_group
+      IMPORTING
+        eo_message     = eo_message ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~CONVERT_ALTERN_KEY">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~CONVERT_ALTERN_KEY.
+
+    IF et_key IS SUPPLIED.
+      mo_original_service_manager-&gt;/bobf/if_tra_service_manager~convert_altern_key(
+        EXPORTING
+          iv_node_key          = iv_node_key
+          iv_altkey_key        = iv_altkey_key
+          iv_target_altkey_key = iv_target_altkey_key
+          it_key               = it_key
+          iv_check_existence   = iv_check_existence
+          iv_before_image      = iv_before_image
+          iv_invalidate_cache  = iv_invalidate_cache
+        IMPORTING
+          eo_change            = eo_change
+          et_result            = et_result
+          et_key               = et_key ).
+
+    ELSE.
+      mo_original_service_manager-&gt;/bobf/if_tra_service_manager~convert_altern_key(
+        EXPORTING
+          iv_node_key          = iv_node_key
+          iv_altkey_key        = iv_altkey_key
+          iv_target_altkey_key = iv_target_altkey_key
+          it_key               = it_key
+          iv_check_existence   = iv_check_existence
+          iv_before_image      = iv_before_image
+          iv_invalidate_cache  = iv_invalidate_cache
+        IMPORTING
+          eo_change            = eo_change
+          et_result            = et_result ).
+    ENDIF.
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~DO_ACTION">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~DO_ACTION.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~do_action(
+      EXPORTING
+        iv_act_key           = iv_act_key
+        it_key               = it_key
+        is_parameters        = is_parameters
+      IMPORTING
+        eo_change            = eo_change
+        eo_message           = eo_message
+        et_failed_key        = et_failed_key
+        et_failed_action_key = et_failed_action_key
+        et_data              = et_data ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~GET_NEW_KEY">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~GET_NEW_KEY.
+
+    ev_key = mo_original_service_manager-&gt;/bobf/if_tra_service_manager~get_new_key(  ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~MODIFY">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~MODIFY.
+
+    &quot; delegate modify to original service manager
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~modify(
+      EXPORTING
+        it_modification = it_modification
+      IMPORTING
+        eo_change       = eo_change
+        eo_message      = eo_message ).
+
+    track_modifications( it_modify = it_modification ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~QUERY">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~QUERY.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~query(
+      EXPORTING
+        iv_query_key            = iv_query_key
+        it_filter_key           = it_filter_key
+        it_selection_parameters = it_selection_parameters
+        is_query_options        = is_query_options
+        iv_fill_data            = iv_fill_data
+        it_requested_attributes = it_requested_attributes
+      IMPORTING
+        eo_message              = eo_message
+        es_query_info           = es_query_info
+        et_data                 = et_data
+        et_key                  = et_key ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~retrieve(
+      EXPORTING
+        iv_node_key             = iv_node_key
+        it_key                  = it_key
+        iv_before_image         = iv_before_image
+        iv_edit_mode            = iv_edit_mode
+        iv_fill_data            = iv_fill_data
+        iv_invalidate_cache     = iv_invalidate_cache
+        it_requested_attributes = it_requested_attributes
+      IMPORTING
+        eo_message              = eo_message
+        eo_change               = eo_change
+        et_data                 = et_data
+        et_failed_key           = et_failed_key ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_BY_ASSOCIATION">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_BY_ASSOCIATION.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~retrieve_by_association(
+      EXPORTING
+        iv_node_key             = iv_node_key
+        it_key                  = it_key
+        iv_association          = iv_association
+        is_parameters           = is_parameters
+        it_filtered_attributes  = it_filtered_attributes
+        iv_fill_data            = iv_fill_data
+        iv_before_image         = iv_before_image
+        iv_invalidate_cache     = iv_invalidate_cache
+        iv_edit_mode            = iv_edit_mode
+        it_requested_attributes = it_requested_attributes
+      IMPORTING
+        eo_message              = eo_message
+        eo_change               = eo_change
+        et_data                 = et_data
+        et_key_link             = et_key_link
+        et_target_key           = et_target_key
+        et_failed_key           = et_failed_key ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_CODE_VALUE_SET">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_CODE_VALUE_SET.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~retrieve_code_value_set(
+      EXPORTING
+        iv_vset_key       = iv_vset_key
+        it_key            = it_key
+        iv_key_is_default = iv_key_is_default
+        is_parameters     = is_parameters
+        it_attributes     = it_attributes
+      IMPORTING
+        et_code_values    = et_code_values ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_DEFAULT_ACTION_PARAM">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_DEFAULT_ACTION_PARAM.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~retrieve_default_action_param(
+      EXPORTING
+        iv_act_key    = iv_act_key
+        it_key        = it_key
+      CHANGING
+        cs_parameters = cs_parameters ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_DEFAULT_NODE_VALUES">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_DEFAULT_NODE_VALUES.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~retrieve_default_node_values(
+      EXPORTING
+        iv_node_key                  = iv_node_key
+        iv_source_key                = iv_source_key
+        iv_assoc_key                 = iv_assoc_key
+        is_assoc_parameters          = is_assoc_parameters
+        it_assoc_filtered_attributes = it_assoc_filtered_attributes
+      IMPORTING
+        eo_message                   = eo_message
+        eo_property                  = eo_property
+      CHANGING
+        ct_data                      = ct_data ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_DEFAULT_QUERY_PARAM">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_DEFAULT_QUERY_PARAM.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~retrieve_default_query_param(
+      EXPORTING
+        iv_query_key            = iv_query_key
+      CHANGING
+        ct_selection_parameters = ct_selection_parameters ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_PROPERTY">
+   <source>method /BOBF/IF_TRA_SERVICE_MANAGER~RETRIEVE_PROPERTY.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_service_manager~retrieve_property(
+      EXPORTING
+        iv_node_key                  = iv_node_key
+        it_key                       = it_key
+        iv_key_is_default            = iv_key_is_default
+        iv_node_property             = iv_node_property
+        iv_node_attribute_property   = iv_node_attribute_property
+        it_node_attribute            = it_node_attribute
+        iv_assoc_property            = iv_assoc_property
+        it_assoc                     = it_assoc
+        iv_assoc_attribute_property  = iv_assoc_attribute_property
+        iv_action_property           = iv_action_property
+        it_action                    = it_action
+        iv_action_attribute_property = iv_action_attribute_property
+        iv_query_property            = iv_query_property
+        it_query                     = it_query
+        iv_query_attribute_property  = iv_query_attribute_property
+      IMPORTING
+        eo_property                  = eo_property
+        eo_message                   = eo_message ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERV_MGR_TRANSACT~ADJUST_NUMBERS">
+   <source>method /BOBF/IF_TRA_SERV_MGR_TRANSACT~ADJUST_NUMBERS.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_serv_mgr_transact~adjust_numbers(
+      IMPORTING
+        eo_change  = eo_change
+        eo_message = eo_message ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERV_MGR_TRANSACT~AFTER_FAILED_SAVE">
+   <source>method /BOBF/IF_TRA_SERV_MGR_TRANSACT~AFTER_FAILED_SAVE.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_serv_mgr_transact~after_failed_save(
+      IMPORTING
+        eo_message = eo_message
+        eo_change  = eo_change ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERV_MGR_TRANSACT~AFTER_SUCCESSFUL_SAVE">
+   <source>method /BOBF/IF_TRA_SERV_MGR_TRANSACT~AFTER_SUCCESSFUL_SAVE.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_serv_mgr_transact~after_successful_save(
+      IMPORTING
+        eo_message = eo_message
+        eo_change  = eo_change ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERV_MGR_TRANSACT~CHECK_BEFORE_SAVE">
+   <source>method /BOBF/IF_TRA_SERV_MGR_TRANSACT~CHECK_BEFORE_SAVE.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_serv_mgr_transact~check_before_save(
+      IMPORTING
+        eo_message  = eo_message
+        ev_rejected = ev_rejected ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERV_MGR_TRANSACT~DO_CLEANUP">
+   <source>method /BOBF/IF_TRA_SERV_MGR_TRANSACT~DO_CLEANUP.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_serv_mgr_transact~do_cleanup(
+      EXPORTING
+        iv_cleanup_mode = iv_cleanup_mode
+      IMPORTING
+        eo_message      = eo_message ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERV_MGR_TRANSACT~DO_SAVE">
+   <source>method /BOBF/IF_TRA_SERV_MGR_TRANSACT~DO_SAVE.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_serv_mgr_transact~do_save(
+      IMPORTING
+        eo_message  = eo_message
+        ev_rejected = ev_rejected ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERV_MGR_TRANSACT~FINALIZE">
+   <source>method /BOBF/IF_TRA_SERV_MGR_TRANSACT~FINALIZE.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_serv_mgr_transact~finalize(
+      IMPORTING
+        eo_message  = eo_message
+        eo_change   = eo_change
+        ev_rejected = ev_rejected ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERV_MGR_TRANSACT~ON_BUSINESS_OBJECT_CHANGED">
+   <source>method /BOBF/IF_TRA_SERV_MGR_TRANSACT~ON_BUSINESS_OBJECT_CHANGED.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_serv_mgr_transact~on_business_object_changed(
+      EXPORTING
+        iv_publishing_bo_key = iv_publishing_bo_key
+        io_change            = io_change
+      IMPORTING
+        eo_change            = eo_change
+        eo_message           = eo_message ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_TRA_SERV_MGR_TRANSACT~ON_NUMBERS_ADJUSTED">
+   <source>method /BOBF/IF_TRA_SERV_MGR_TRANSACT~ON_NUMBERS_ADJUSTED.
+
+    mo_original_service_manager-&gt;/bobf/if_tra_serv_mgr_transact~on_numbers_adjusted(
+      EXPORTING
+        io_change  = io_change
+      IMPORTING
+        eo_message = eo_message
+        eo_change  = eo_change ).
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MESSAGE~ADD">
+   <source>method /BOBF/IF_FRW_MESSAGE~ADD.
+    mo_original_message-&gt;add( io_message = io_message ).
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MESSAGE~ADD_CM">
+   <source>method /BOBF/IF_FRW_MESSAGE~ADD_CM.
+    mo_original_message-&gt;add_cm(
+      EXPORTING
+        io_message = io_message
+        it_message = it_message ).
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MESSAGE~ADD_CM_WITH_NEW_LOCATION">
+   <source>method /BOBF/IF_FRW_MESSAGE~ADD_CM_WITH_NEW_LOCATION.
+    mo_original_message-&gt;add_cm_with_new_location(
+      EXPORTING
+        io_message                  = io_message
+        iv_new_bopf_location        = iv_new_bopf_location
+        is_new_origin_location      = is_new_origin_location
+        it_new_environment_location = it_new_environment_location
+        iv_new_lifetime             = iv_new_lifetime
+        iv_new_symptom              = iv_new_symptom
+        iv_new_severity             = iv_new_severity ).
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MESSAGE~ADD_EXCEPTION">
+   <source>method /BOBF/IF_FRW_MESSAGE~ADD_EXCEPTION.
+    mo_original_message-&gt;add_exception(
+      EXPORTING
+        io_exception = io_exception
+        iv_node      = iv_node
+        iv_key       = iv_key
+        iv_attribute = iv_attribute ).
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MESSAGE~ADD_MESSAGE">
+   <source>method /BOBF/IF_FRW_MESSAGE~ADD_MESSAGE.
+    mo_original_message-&gt;add_message(
+      EXPORTING
+        is_msg       = is_msg
+        iv_node      = iv_node
+        iv_key       = iv_key
+        iv_attribute = iv_attribute ).
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MESSAGE~CHECK">
+   <source>method /BOBF/IF_FRW_MESSAGE~CHECK.
+    mo_original_message-&gt;check(
+      EXPORTING
+        iv_consistency_messages = iv_consistency_messages
+        iv_action_messages      = iv_action_messages
+      RECEIVING
+        ev_error_messages       = ev_error_messages ).
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MESSAGE~GET">
+   <source>method /BOBF/IF_FRW_MESSAGE~GET.
+    mo_original_message-&gt;get(
+      IMPORTING
+        et_message = et_message ).
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_MESSAGE~GET_MESSAGES">
+   <source>method /BOBF/IF_FRW_MESSAGE~GET_MESSAGES.
+    mo_original_message-&gt;get_messages(
+      EXPORTING
+        iv_severity             = iv_severity
+        iv_consistency_messages = iv_consistency_messages
+        iv_action_messages      = iv_action_messages
+      IMPORTING
+        et_message              = et_message ).
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_ADDON_OPTIONAL~ADJUST_INTERNAL_ACCESS">
+   <source>method /BOBF/IF_FRW_ADDON_OPTIONAL~ADJUST_INTERNAL_ACCESS.
+
+    DATA lo_addon TYPE REF TO zbobf_cl_change_tracker_adn.
+
+    IF check_test_ui( ).
+      gv_is_in_test_ui = abap_true.
+    ENDIF.
+
+    CHECK gv_is_in_test_ui = abap_false.
+    &quot; create an addon instance for this BO
+    lo_addon = NEW #(
+      iv_bo_key          = iv_bo_key
+      io_internal_access = co_internal_access ).
+
+    &quot; return the addon instead of the original int access modify
+    co_internal_access ?= lo_addon.
+
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CPDNAME="/BOBF/IF_FRW_ADDON_OPTIONAL~ADJUST_MESSAGE">
+   <source>method /BOBF/IF_FRW_ADDON_OPTIONAL~ADJUST_MESSAGE.
+    DATA lo_addon TYPE REF TO /bobf/cl_tool_debug_addon.
+
+    &quot; create an addon instance for this BO
+    CREATE OBJECT lo_addon
+      EXPORTING
+        io_message = co_message.
+
+    &quot; return the addon instead of the original message
+    co_message ?= lo_addon.
+  endmethod.</source>
+  </interfaceMethod>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="ACTIVATE_ADDON" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="ACTIVATE_ADDON" SCONAME="IO_BREAKPOINT_HANDLER" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="/BOBF/IF_TOOL_BREAKPOINT_HNDL" PAROPTIONL="X"/>
+   <source>method ACTIVATE_ADDON.
+    go_breakpoint_handler = io_breakpoint_handler.
+    TRY.
+        /bobf/cl_frw_addon=&gt;activate_addon(
+          iv_addon_name = &apos;/BOBF/TOOL_DEBUG_ADDON&apos;
+          iv_int_access = abap_true
+          iv_serv_mgr   = abap_true  ).
+      CATCH /bobf/cx_frw.
+        ASSERT 1 = 0.
+    ENDTRY.
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_TEST_UI" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="11 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_TEST_UI" SCONAME="RV_IS_IN_TEST_UI" VERSION="1" LANGU="E" DESCRIPT="Boolean Variable (X=True, -=False, Space=Unknown)" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="BOOLEAN"/>
+   <source>method CHECK_TEST_UI.
+
+    DATA:
+      lt_callstack TYPE abap_callstack.
+
+    CALL FUNCTION &apos;SYSTEM_CALLSTACK&apos;
+      EXPORTING
+        max_level = 0
+      IMPORTING
+        callstack = lt_callstack.
+
+    rv_is_in_test_ui = abap_false.
+    LOOP AT lt_callstack ASSIGNING FIELD-SYMBOL(&lt;fs_callstack&gt;).
+      IF &lt;fs_callstack&gt;-mainprogram = &apos;/BOBF/TEST_UI&apos;.
+        rv_is_in_test_ui = abap_true.
+      ENDIF.
+    ENDLOOP.
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_WATCHPOINT_ON_CREATE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="4 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_WATCHPOINT_ON_CREATE" SCONAME="IV_NODE_KEY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="/BOBF/OBM_NODE_KEY"/>
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_WATCHPOINT_ON_CREATE" SCONAME="RV_BREAK" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="BOOLE_D"/>
+   <source>method CHECK_WATCHPOINT_ON_CREATE.
+
+    READ TABLE gt_watchpoint ASSIGNING FIELD-SYMBOL(&lt;ls_watchpoint&gt;)
+       WITH TABLE KEY
+         bo_key = mv_bo_key
+         node_key = iv_node_key.
+
+    rv_break = boolc( sy-subrc = 0 AND &lt;ls_watchpoint&gt;-on_create = abap_true ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_WATCHPOINT_ON_DELETE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="5 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_WATCHPOINT_ON_DELETE" SCONAME="IV_NODE_KEY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="/BOBF/OBM_NODE_KEY"/>
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_WATCHPOINT_ON_DELETE" SCONAME="RV_BREAK" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="BOOLE_D"/>
+   <source>method CHECK_WATCHPOINT_ON_DELETE.
+
+    READ TABLE gt_watchpoint ASSIGNING FIELD-SYMBOL(&lt;ls_watchpoint&gt;)
+       WITH TABLE KEY
+         bo_key = mv_bo_key
+         node_key = iv_node_key.
+
+    rv_break = boolc( sy-subrc = 0 AND &lt;ls_watchpoint&gt;-on_delete = abap_true ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_WATCHPOINT_ON_UPDATE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="6 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_WATCHPOINT_ON_UPDATE" SCONAME="IV_NODE_KEY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="/BOBF/OBM_NODE_KEY"/>
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CHECK_WATCHPOINT_ON_UPDATE" SCONAME="RV_BREAK" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="BOOLE_D"/>
+   <source>method CHECK_WATCHPOINT_ON_UPDATE.
+
+    READ TABLE gt_watchpoint ASSIGNING FIELD-SYMBOL(&lt;ls_watchpoint&gt;)
+       WITH TABLE KEY
+         bo_key = mv_bo_key
+         node_key = iv_node_key.
+
+    rv_break = boolc( sy-subrc = 0 AND &lt;ls_watchpoint&gt;-on_update = abap_true ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="2" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CONSTRUCTOR" SCONAME="IV_BO_KEY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="/BOBF/OBM_BO_KEY" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CONSTRUCTOR" SCONAME="IO_INTERNAL_ACCESS" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="/BOBF/CL_FRW_INT_ACCESS" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CONSTRUCTOR" SCONAME="IO_SERVICE_MANAGER" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="/BOBF/IF_TRA_SERV_MGR_COMPL" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="CONSTRUCTOR" SCONAME="IO_MESSAGE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="4 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="/BOBF/IF_FRW_MESSAGE" PAROPTIONL="X"/>
+   <source>method CONSTRUCTOR.
+
+    DATA:
+      lo_bopf   TYPE REF TO /bobf/cl_frw,
+      lo_conf   TYPE REF TO /bobf/if_frw_configuration,
+      lo_buffer TYPE REF TO /bobf/if_frw_buffer,
+      lo_change TYPE REF TO /bobf/if_frw_change.
+
+    super-&gt;constructor(
+      EXPORTING
+        io_bopf   = lo_bopf
+        io_conf   = lo_conf
+        io_buffer = lo_buffer
+        io_change = lo_change ).
+
+    &quot; store this addon instance in the message object table
+    IF io_message IS BOUND.
+      mo_original_message = io_message.
+    ENDIF.
+
+    &quot; store this addon instance in the static service manager table
+    IF io_service_manager IS BOUND.
+      mo_original_service_manager = io_service_manager.
+    ENDIF.
+
+    &quot; store this addon instance in the static internal access table
+    IF io_internal_access IS BOUND.
+      mo_original_internal_access = io_internal_access.
+      &quot; set the reference to this addon, as the int access uses &quot;me&quot; to read the callstack
+      mo_original_internal_access-&gt;mr_addon_reference = me.
+    ENDIF.
+
+    &quot; store bo key
+    mv_bo_key = iv_bo_key.
+
+    &quot; encapsulate the original service manager instance
+    mo_original_service_manager = io_service_manager.
+    mo_original_internal_access = io_internal_access.
+
+    setup_change_tracker_settings( ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="COUNT_WATCHPOINTS" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="3 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="COUNT_WATCHPOINTS" SCONAME="RV_COUNT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="INT4"/>
+   <source>method COUNT_WATCHPOINTS.
+    rv_count = lines( gt_watchpoint ).
+  endmethod.</source>
+  </method>
+  <method CLSNAME="/BOBF/CL_FRW_INT_ACCESS" CMPNAME="END_MODIFY" VERSION="0" EXPOSURE="0" STATE="0" EDITORDER="0 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>method END_MODIFY.
+
+    mo_original_internal_access-&gt;end_modify(
+      EXPORTING
+        iv_process_immediately = iv_process_immediately
+        iv_check_for_failed    = iv_check_for_failed
+      IMPORTING
+        eo_change              = eo_change ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="/BOBF/CL_FRW_INT_ACCESS" CMPNAME="INVALIDATE" VERSION="0" EXPOSURE="0" STATE="0" EDITORDER="0 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>method INVALIDATE.
+
+    mo_original_internal_access-&gt;invalidate(
+      IMPORTING
+        et_mod = et_mod ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="/BOBF/CL_FRW_INT_ACCESS" CMPNAME="NOTIFY_CHANGE_INTERNAL" VERSION="0" EXPOSURE="0" STATE="0" EDITORDER="0 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>method NOTIFY_CHANGE_INTERNAL.
+
+    mo_original_internal_access-&gt;notify_change_internal(
+      EXPORTING
+        iv_node_key    = iv_node_key
+        iv_key         = iv_key
+        it_key         = it_key
+        iv_change_mode = iv_change_mode ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="READ_ABAP_CALL_STACK" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="8 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="READ_ABAP_CALL_STACK" SCONAME="CT_CHANGE_LOG" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="2" PARPASSTYP="1" TYPTYPE="1" TYPE="LT_BOBF_CHANGE_TRACKER_LOG"/>
+   <source>method READ_ABAP_CALL_STACK.
+
+    DATA:
+      lt_callstack TYPE abap_callstack.
+
+    CHECK ct_change_log IS NOT INITIAL.
+
+    CALL FUNCTION &apos;SYSTEM_CALLSTACK&apos;
+      EXPORTING
+        max_level = 0
+      IMPORTING
+        callstack = lt_callstack.
+
+    READ TABLE lt_callstack ASSIGNING FIELD-SYMBOL(&lt;fs_call_stack&gt;) INDEX 4.
+    IF sy-subrc = 0.
+      LOOP AT ct_change_log ASSIGNING FIELD-SYMBOL(&lt;fs_change_log_line&gt;).
+        &lt;fs_change_log_line&gt; = CORRESPONDING #( BASE ( &lt;fs_change_log_line&gt; ) &lt;fs_call_stack&gt; ).
+      ENDLOOP.
+    ENDIF.
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="SETUP_CHANGE_TRACKER_SETTINGS" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="9 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>method SETUP_CHANGE_TRACKER_SETTINGS.
+
+    IF gv_settings_read = abap_false.
+
+      SELECT * FROM zbobf_d_track
+        INTO CORRESPONDING FIELDS OF TABLE gt_change_tracker_settings
+        WHERE uname = sy-uname.
+
+      LOOP AT gt_change_tracker_settings ASSIGNING FIELD-SYMBOL(&lt;fs_change_tracker_setting&gt;)
+        WHERE watchp_enable = abap_true.
+
+        INSERT CORRESPONDING #( &lt;fs_change_tracker_setting&gt;
+          MAPPING
+            bo_key = bo_key
+            node_key = node_key
+            on_create = track_create
+            on_update = track_update
+            on_delete = track_delete
+        ) INTO TABLE gt_watchpoint.
+
+      ENDLOOP.
+
+      gv_settings_read = abap_true.
+    ENDIF.
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="/BOBF/CL_FRW_INT_ACCESS" CMPNAME="SET_CONTEXT" VERSION="0" EXPOSURE="0" STATE="0" EDITORDER="0 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>method SET_CONTEXT.
+
+    mo_original_internal_access-&gt;set_context(
+      EXPORTING
+        is_action                      = is_action
+        is_association                 = is_association
+        is_determination               = is_determination
+        is_validation                  = is_validation
+        is_query                       = is_query
+        iv_read_allowed                = iv_read_allowed
+        iv_modify_allowed              = iv_modify_allowed
+        iv_check_allowed               = iv_check_allowed
+        iv_query_allowed               = iv_query_allowed
+        iv_process_immediately_allowed = iv_process_immediately_allowed
+        it_mod                         = it_mod
+        iv_read_buffer_only            = iv_read_buffer_only
+        iv_invalidate_cache            = iv_invalidate_cache
+        iv_within_loading              = iv_within_loading
+        iv_within_retrieve             = iv_within_retrieve ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="/BOBF/CL_FRW_INT_ACCESS" CMPNAME="SET_CURRENT_STATE" VERSION="0" EXPOSURE="0" STATE="0" EDITORDER="0 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>method SET_CURRENT_STATE.
+
+    mo_original_internal_access-&gt;set_current_state( iv_current_state = iv_current_state ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="/BOBF/CL_FRW_INT_ACCESS" CMPNAME="SET_EDIT_MODE" VERSION="0" EXPOSURE="0" STATE="0" EDITORDER="0 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>method SET_EDIT_MODE.
+
+    mo_original_internal_access-&gt;set_edit_mode( iv_edit_mode = iv_edit_mode ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="/BOBF/CL_FRW_INT_ACCESS" CMPNAME="SET_LAST_STATE" VERSION="0" EXPOSURE="0" STATE="0" EDITORDER="0 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>method SET_LAST_STATE.
+
+    mo_original_internal_access-&gt;set_last_state( iv_last_state = iv_last_state ).
+
+    synchronize_internal_access( ).
+
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="SYNCHRONIZE_INTERNAL_ACCESS" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="7 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>method SYNCHRONIZE_INTERNAL_ACCESS.
+    mo_bopf              = mo_original_internal_access-&gt;mo_bopf.
+    mo_buffer            = mo_original_internal_access-&gt;mo_buffer.
+    mo_change            = mo_original_internal_access-&gt;mo_change.
+    mo_conf              = mo_original_internal_access-&gt;mo_conf.
+    mo_local_change      = mo_original_internal_access-&gt;mo_local_change.
+    mo_local_message     = mo_original_internal_access-&gt;mo_local_message.
+    ms_association       = mo_original_internal_access-&gt;ms_association.
+    mt_modification      = mo_original_internal_access-&gt;mt_modification.
+    mt_modification_bopf = mo_original_internal_access-&gt;mt_modification_bopf.
+    mv_current_state     = mo_original_internal_access-&gt;mv_current_state.
+    mv_edit_mode         = mo_original_internal_access-&gt;mv_edit_mode.
+    mv_invalidate_cache  = mo_original_internal_access-&gt;mv_invalidate_cache.
+    mv_last_state        = mo_original_internal_access-&gt;mv_last_state.
+    mv_valid_if_check    = mo_original_internal_access-&gt;mv_valid_if_check.
+    mv_valid_if_modify   = mo_original_internal_access-&gt;mv_valid_if_modify.
+    mv_valid_if_query    = mo_original_internal_access-&gt;mv_valid_if_query.
+    mv_valid_if_read     = mo_original_internal_access-&gt;mv_valid_if_read.
+    mv_within_loading    = mo_original_internal_access-&gt;mv_within_loading.
+    mv_within_retrieve   = mo_original_internal_access-&gt;mv_within_retrieve.
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="TRACK_MODIFICATIONS" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="10 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZBOBF_CL_CHANGE_TRACKER_ADN" CMPNAME="TRACK_MODIFICATIONS" SCONAME="IT_MODIFY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="/BOBF/T_FRW_MODIFICATION"/>
+   <source>method TRACK_MODIFICATIONS.
+
+    DATA:
+      lt_change_log        TYPE lt_bobf_change_tracker_log,
+      lt_change_log_result TYPE lt_bobf_change_tracker_log,
+      lt_setting           TYPE zbobf_t_change_tracker_set,
+      ls_init_setting      TYPE zbobf_s_change_tracker_set,
+      lv_track_changes     TYPE flag.
+
+    FIELD-SYMBOLS:
+      &lt;fs_new_value&gt; TYPE any.
+
+    LOOP AT it_modify ASSIGNING FIELD-SYMBOL(&lt;fs_modification&gt;).
+
+      CLEAR: lt_setting, lv_track_changes.
+
+* There are could be several settings for tracking several attributes of the Node.
+* It is nesessary to respect them all. For each settings we will have separate records in the LOG
+* Read setting for every changed field separately:
+      LOOP AT &lt;fs_modification&gt;-changed_fields ASSIGNING FIELD-SYMBOL(&lt;fs_changed_field&gt;).
+        READ TABLE gt_change_tracker_settings ASSIGNING FIELD-SYMBOL(&lt;fs_setting&gt;)
+         WITH TABLE KEY node_field COMPONENTS
+           uname      = sy-uname
+           bo_key     = mv_bo_key
+           node_key   = &lt;fs_modification&gt;-node
+           field_name = &lt;fs_changed_field&gt;.
+        IF sy-subrc = 0.
+          APPEND &lt;fs_setting&gt; TO lt_setting.
+        ENDIF.
+      ENDLOOP.
+
+* Read setting for tracking any change in the Node
+      READ TABLE gt_change_tracker_settings ASSIGNING FIELD-SYMBOL(&lt;fs_entire_rec_setting&gt;)
+        WITH TABLE KEY node_field COMPONENTS
+          uname      = sy-uname
+          bo_key     = mv_bo_key
+          node_key   = &lt;fs_modification&gt;-node
+          field_name = &apos;&apos;.
+      IF sy-subrc = 0.
+        APPEND &lt;fs_entire_rec_setting&gt; TO lt_setting.
+      ENDIF.
+
+* If the change fields in modification is initial, then respect all tracker settings for this Node
+      IF &lt;fs_modification&gt;-changed_fields IS INITIAL.
+        LOOP AT gt_change_tracker_settings ASSIGNING &lt;fs_setting&gt;
+          USING KEY node_field
+            WHERE uname    = sy-uname
+              AND bo_key   = mv_bo_key
+              AND node_key = &lt;fs_modification&gt;-node.
+          APPEND &lt;fs_setting&gt; TO lt_setting.
+        ENDLOOP.
+      ENDIF.
+
+* loop at actual settings for current modification
+      LOOP AT lt_setting ASSIGNING &lt;fs_setting&gt;.
+        CLEAR: lt_change_log.
+        &quot;Check if setting record key match actual modif record key
+        IF &lt;fs_setting&gt;-record_key IS NOT INITIAL AND &lt;fs_setting&gt;-record_key &lt;&gt; &lt;fs_modification&gt;-key.
+          CONTINUE.
+        ENDIF.
+
+        CASE &lt;fs_modification&gt;-change_mode.
+          WHEN /bobf/if_frw_c=&gt;sc_modify_update.
+            IF ( &lt;fs_setting&gt;-field_name IS INITIAL &quot; we have to track, only if selected field has been changed
+              OR &lt;fs_modification&gt;-changed_fields IS INITIAL &quot; all fields are going to be changed
+              OR line_exists( &lt;fs_modification&gt;-changed_fields[ table_line = &lt;fs_setting&gt;-field_name ] ) ).
+              lv_track_changes = &lt;fs_setting&gt;-track_update.
+            ENDIF.
+          WHEN /bobf/if_frw_c=&gt;sc_modify_create.
+            lv_track_changes = &lt;fs_setting&gt;-track_create. &quot; track anyway
+          WHEN /bobf/if_frw_c=&gt;sc_modify_delete.
+            lv_track_changes = &lt;fs_setting&gt;-track_delete. &quot; track anyway
+        ENDCASE.
+
+        IF lv_track_changes = abap_true.
+
+          INSERT VALUE ts_bobf_change_tracker_log(
+            log_key     = /bobf/cl_frw_factory=&gt;get_new_key( )
+            bo_key      = mv_bo_key
+            node_key    = &lt;fs_modification&gt;-node
+            record_key  = &lt;fs_modification&gt;-key
+            root_key    = &lt;fs_modification&gt;-root_key
+            change_mode = &lt;fs_modification&gt;-change_mode
+          ) INTO TABLE lt_change_log ASSIGNING FIELD-SYMBOL(&lt;fs_change_log&gt;).
+
+          GET TIME STAMP FIELD &lt;fs_change_log&gt;-operation_time.
+
+          DATA(lv_fill_new_value) = abap_false. &quot;flag for filling new field value
+          CASE &lt;fs_modification&gt;-change_mode.
+            WHEN /bobf/if_frw_c=&gt;sc_modify_create.
+              watchpoint_on_create &lt;fs_modification&gt;-node. &quot;BOPF create watchpoint reached
+              IF ( &lt;fs_setting&gt;-field_name IS NOT INITIAL &quot;If field has been defined explicitly and been changed, track new value
+                AND ( line_exists( &lt;fs_modification&gt;-changed_fields[ table_line = &lt;fs_setting&gt;-field_name ] )
+                OR &lt;fs_modification&gt;-changed_fields IS INITIAL ) ). &quot; all fileds are going to be changed
+                lv_fill_new_value = abap_true.
+              ENDIF.
+            WHEN /bobf/if_frw_c=&gt;sc_modify_delete.
+              watchpoint_on_delete &lt;fs_modification&gt;-node. &quot;BOBF delete watchpoint reached
+            WHEN /bobf/if_frw_c=&gt;sc_modify_update.
+              watchpoint_on_update &lt;fs_modification&gt;-node. &quot;BOBF update watchpoint reached
+              IF ( &lt;fs_setting&gt;-field_name IS NOT INITIAL &quot;If field has been defined explicitly and been changed, track new value
+                AND ( line_exists( &lt;fs_modification&gt;-changed_fields[ table_line = &lt;fs_setting&gt;-field_name ] )
+                OR &lt;fs_modification&gt;-changed_fields IS INITIAL ) ). &quot; all fileds are going to be changed
+                lv_fill_new_value = abap_true.
+              ENDIF.
+          ENDCASE.
+
+          IF lv_fill_new_value = abap_true. &quot;Fill new field value if need
+            IF &lt;fs_change_log&gt; IS ASSIGNED AND &lt;fs_modification&gt;-data IS BOUND.
+              ASSIGN &lt;fs_modification&gt;-data-&gt;(&lt;fs_setting&gt;-field_name) TO &lt;fs_new_value&gt;.
+              IF &lt;fs_new_value&gt; IS ASSIGNED.
+                &lt;fs_change_log&gt;-field_name = &lt;fs_setting&gt;-field_name.
+
+                cl_abap_container_utilities=&gt;fill_container_c(
+                  EXPORTING
+                    im_value     = &lt;fs_new_value&gt;
+                  IMPORTING
+                    ex_container = &lt;fs_change_log&gt;-new_value
+                ).
+              ENDIF.
+            ENDIF.
+          ENDIF.
+        ENDIF.
+
+        INSERT LINES OF lt_change_log INTO TABLE lt_change_log_result.
+      ENDLOOP.
+    ENDLOOP.
+
+    read_abap_call_stack(
+      CHANGING
+        ct_change_log = lt_change_log_result
+    ).
+
+    IF lt_change_log_result IS NOT INITIAL.
+      INSERT zbobf_d_t_log CONNECTION (cv_second_connection) FROM TABLE lt_change_log_result.
+      COMMIT CONNECTION (cv_second_connection).
+      INSERT LINES OF lt_change_log_result INTO TABLE gt_change_log_container.
+    ENDIF.
+
+  endmethod.</source>
+  </method>
+ </CLAS>
+ <DOMA DOMNAME="ZBOBF_TIMESTAMP" MultiLanguageSupport="X">
+  <DDLANGUAGE LANGU="E">
+   <DD01V DOMNAME="ZBOBF_TIMESTAMP" DDLANGUAGE="E" DATATYPE="DEC" LENG="000015" OUTPUTLEN="000019" DECIMALS="000000" CONVEXIT="TSTLC" MASKLEN="0000" DDTEXT="Time stamp consisting of date and time" AUTHCLASS="00" DOMMASTER="D" OUTPUTSTYLE="00"/>
+  </DDLANGUAGE>
+ </DOMA>
+ <DTEL ROLLNAME="ZBOBF_TRACKER_BO_KEY" DDLANGUAGE="E" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="06" SCRLEN1="06" SCRLEN2="06" SCRLEN3="06" DDTEXT="BOBF tracker bo key" REPTEXT="BO key" SCRTEXT_S="BO key" SCRTEXT_M="BO key" SCRTEXT_L="BO key" AUTHCLASS="00" DTELMASTER="E" DATATYPE="RAW" LENG="000016" DECIMALS="000000" OUTPUTLEN="000032" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBOBF_TRACKER_BO_KEY" DDLANGUAGE="E" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="06" SCRLEN1="06" SCRLEN2="06" SCRLEN3="06" DDTEXT="BOBF tracker bo key" REPTEXT="BO key" SCRTEXT_S="BO key" SCRTEXT_M="BO key" SCRTEXT_L="BO key" AUTHCLASS="00" DTELMASTER="E" DATATYPE="RAW" LENG="000016" DECIMALS="000000" OUTPUTLEN="000032" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBOBF_TRACKER_FLAG_CREATE" DDLANGUAGE="E" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BOBF tracker create flag" REPTEXT="Track create" SCRTEXT_S="On Create" SCRTEXT_M="Track create" SCRTEXT_L="Track create" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBOBF_TRACKER_FLAG_CREATE" DDLANGUAGE="E" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BOBF tracker create flag" REPTEXT="Track create" SCRTEXT_S="On Create" SCRTEXT_M="Track create" SCRTEXT_L="Track create" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBOBF_TRACKER_FLAG_DELETE" DDLANGUAGE="E" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BOBF tracker delete flag" REPTEXT="Track delete" SCRTEXT_S="On Delete" SCRTEXT_M="Track delete" SCRTEXT_L="Track delete" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBOBF_TRACKER_FLAG_DELETE" DDLANGUAGE="E" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BOBF tracker delete flag" REPTEXT="Track delete" SCRTEXT_S="On Delete" SCRTEXT_M="Track delete" SCRTEXT_L="Track delete" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBOBF_TRACKER_FLAG_UPDATE" DDLANGUAGE="E" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BOBF tracker update flag" REPTEXT="Track update" SCRTEXT_S="On Update" SCRTEXT_M="Track update" SCRTEXT_L="Track update" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBOBF_TRACKER_FLAG_UPDATE" DDLANGUAGE="E" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BOBF tracker update flag" REPTEXT="Track update" SCRTEXT_S="On Update" SCRTEXT_M="Track update" SCRTEXT_L="Track update" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBOBF_TRACKER_FLAG_WATCHPOINT" DDLANGUAGE="E" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BOBF tracker watchpoints enable flag" REPTEXT="Watchpoints enable" SCRTEXT_S="Watchpoint" SCRTEXT_M="Watchpoints enable" SCRTEXT_L="Watchpoints enable" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBOBF_TRACKER_FLAG_WATCHPOINT" DDLANGUAGE="E" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BOBF tracker watchpoints enable flag" REPTEXT="Watchpoints enable" SCRTEXT_S="Watchpoint" SCRTEXT_M="Watchpoints enable" SCRTEXT_L="Watchpoints enable" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBOBF_TRACKER_LOG_KEY" DDLANGUAGE="E" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DDTEXT="BOBF tracker log record key" REPTEXT="Log key" SCRTEXT_S="Log key" SCRTEXT_M="Log key" SCRTEXT_L="Log key" AUTHCLASS="00" DTELMASTER="E" DATATYPE="RAW" LENG="000016" DECIMALS="000000" OUTPUTLEN="000032" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBOBF_TRACKER_LOG_KEY" DDLANGUAGE="E" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DDTEXT="BOBF tracker log record key" REPTEXT="Log key" SCRTEXT_S="Log key" SCRTEXT_M="Log key" SCRTEXT_L="Log key" AUTHCLASS="00" DTELMASTER="E" DATATYPE="RAW" LENG="000016" DECIMALS="000000" OUTPUTLEN="000032" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBOBF_TRACKER_NODE_KEY" DDLANGUAGE="E" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="08" SCRLEN1="08" SCRLEN2="08" SCRLEN3="08" DDTEXT="BOBF tracker node key" REPTEXT="Node key" SCRTEXT_S="Node key" SCRTEXT_M="Node key" SCRTEXT_L="Node key" AUTHCLASS="00" DTELMASTER="E" DATATYPE="RAW" LENG="000016" DECIMALS="000000" OUTPUTLEN="000032" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBOBF_TRACKER_NODE_KEY" DDLANGUAGE="E" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="08" SCRLEN1="08" SCRLEN2="08" SCRLEN3="08" DDTEXT="BOBF tracker node key" REPTEXT="Node key" SCRTEXT_S="Node key" SCRTEXT_M="Node key" SCRTEXT_L="Node key" AUTHCLASS="00" DTELMASTER="E" DATATYPE="RAW" LENG="000016" DECIMALS="000000" OUTPUTLEN="000032" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBOBF_TRACKER_RECORD_KEY" DDLANGUAGE="E" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DDTEXT="BOBF tracker record key" REPTEXT="Record key" SCRTEXT_S="Record key" SCRTEXT_M="Record key" SCRTEXT_L="Record key" AUTHCLASS="00" DTELMASTER="E" DATATYPE="RAW" LENG="000016" DECIMALS="000000" OUTPUTLEN="000032" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBOBF_TRACKER_RECORD_KEY" DDLANGUAGE="E" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DDTEXT="BOBF tracker record key" REPTEXT="Record key" SCRTEXT_S="Record key" SCRTEXT_M="Record key" SCRTEXT_L="Record key" AUTHCLASS="00" DTELMASTER="E" DATATYPE="RAW" LENG="000016" DECIMALS="000000" OUTPUTLEN="000032" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBOBF_TRACKER_TIME" DDLANGUAGE="E" DOMNAME="ZBOBF_TIMESTAMP" ROUTPUTLEN="000000" HEADLEN="19" SCRLEN1="10" SCRLEN2="19" SCRLEN3="19" DDTEXT="Operation Time" REPTEXT="Operation Time" SCRTEXT_S="Oper. time" SCRTEXT_M="Operation Time" SCRTEXT_L="Operation Time" AUTHCLASS="00" DTELMASTER="E" DATATYPE="DEC" LENG="000015" DECIMALS="000000" OUTPUTLEN="000019" CONVEXIT="TSTLC" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBOBF_TRACKER_TIME" DDLANGUAGE="E" DOMNAME="ZBOBF_TIMESTAMP" ROUTPUTLEN="000000" HEADLEN="19" SCRLEN1="10" SCRLEN2="19" SCRLEN3="19" DDTEXT="Operation Time" REPTEXT="Operation Time" SCRTEXT_S="Oper. time" SCRTEXT_M="Operation Time" SCRTEXT_L="Operation Time" AUTHCLASS="00" DTELMASTER="E" DATATYPE="DEC" LENG="000015" DECIMALS="000000" OUTPUTLEN="000019" CONVEXIT="TSTLC" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <PROG NAME="ZBOBF_CHANGE_TRACKER_LOG" VARCL="X" SUBC="1" APPL="S" RSTAT="K" RMAND="800" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="I" KEY="001" ENTRY="Log" LENGTH="13 "/>
+    <textElement ID="I" KEY="002" ENTRY="Settings" LENGTH="10 "/>
+    <textElement ID="I" KEY="003" ENTRY="Display List of Activated User-IDs" LENGTH="68 "/>
+    <textElement ID="I" KEY="004" ENTRY="List of Activated User-IDs" LENGTH="52 "/>
+    <textElement ID="I" KEY="007" ENTRY="Activate BOBF change tracker" LENGTH="72 "/>
+    <textElement ID="I" KEY="008" ENTRY="Deactivate BOBF change tracker" LENGTH="76 "/>
+    <textElement ID="I" KEY="009" ENTRY="Activation" LENGTH="10 "/>
+    <textElement ID="I" KEY="010" ENTRY="List of Activated User-IDs" LENGTH="52 "/>
+    <textElement ID="I" KEY="011" ENTRY="Settings" LENGTH="10 "/>
+    <textElement ID="I" KEY="BL1" ENTRY="Log parameters" LENGTH="24 "/>
+    <textElement ID="R" ENTRY="Program ZBOPF_CHANGE_TRACKER_LOG" LENGTH="35 "/>
+    <textElement ID="S" KEY="S_BLCKN" ENTRY="        Blockname" LENGTH="17 "/>
+    <textElement ID="S" KEY="S_BLCKT" ENTRY="        Blocktype" LENGTH="17 "/>
+    <textElement ID="S" KEY="S_BO_K" ENTRY="        BO key" LENGTH="14 "/>
+    <textElement ID="S" KEY="S_C_MODE" ENTRY="        Change mode" LENGTH="19 "/>
+    <textElement ID="S" KEY="S_DATE" ENTRY="        Date" LENGTH="12 "/>
+    <textElement ID="S" KEY="S_FLDNM" ENTRY="        Field name" LENGTH="18 "/>
+    <textElement ID="S" KEY="S_INCL" ENTRY="        Include" LENGTH="15 "/>
+    <textElement ID="S" KEY="S_LINE" ENTRY="        Line" LENGTH="12 "/>
+    <textElement ID="S" KEY="S_MAINP" ENTRY="        Mainprogram" LENGTH="19 "/>
+    <textElement ID="S" KEY="S_ND_K" ENTRY="        Node key" LENGTH="16 "/>
+    <textElement ID="S" KEY="S_NEW_V" ENTRY="        New value" LENGTH="17 "/>
+    <textElement ID="S" KEY="S_REC_K" ENTRY="        Record key" LENGTH="18 "/>
+    <textElement ID="S" KEY="S_RT_K" ENTRY="        Root key" LENGTH="16 "/>
+    <textElement ID="S" KEY="S_TIME" ENTRY="        Time" LENGTH="12 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report  ZBOBF_CHANGE_TRACKER_LOG
+*&amp; Allows you to track any changes of any fields/nodes happened in BOPF
+*&amp;---------------------------------------------------------------------*
+*&amp; Authors: Dmitry Baliuk, Andrej Dukhounik
+*&amp; Version: 27.11.2016
+*&amp;---------------------------------------------------------------------*
+REPORT zbobf_change_tracker_log.
+
+TYPES:
+  BEGIN OF ty_gs_bopf_log_selection,
+    bo_key      TYPE zbobf_tracker_bo_key,
+    node_key    TYPE zbobf_tracker_node_key,
+    field_name  TYPE /bofu/field_name,
+    date        TYPE sydatum,
+    time        TYPE syuzeit,
+    new_value   TYPE char80,
+    record_key  TYPE zbobf_tracker_record_key,
+    root_key    TYPE /bobf/conf_key,
+    mainprogram TYPE syrepid,
+    include     TYPE include,
+    line        TYPE int4,
+    blocktype   TYPE char12,
+    blockname   TYPE char100,
+    flag_system TYPE char1,
+    change_mode TYPE /bobf/conf_change_mode,
+  END OF ty_gs_bopf_log_selection.
+
+TYPE-POOLS:
+  icon.
+
+TABLES:
+  sscrfields.
+
+CONSTANTS:
+  lc_highest_ts          TYPE timestamp VALUE &apos;99990000000000&apos;,
+  lc_configurable_access TYPE char1 VALUE &apos;A&apos;,
+  lc_const_access        TYPE char1 VALUE &apos;X&apos;,
+  lc_deny_access         TYPE char1 VALUE &apos;&apos;.
+
+DATA:   &quot;only for selection screen
+*=======================================================================
+  gs_log_selection TYPE ty_gs_bopf_log_selection.
+
+* Button: Tool Documentation
+SELECTION-SCREEN FUNCTION KEY 1. &quot;open bobf tracker maintenance
+SELECTION-SCREEN FUNCTION KEY 2. &quot;activate/diactivate
+SELECTION-SCREEN FUNCTION KEY 3. &quot;show user&apos;s activations
+* Display Options
+SELECTION-SCREEN BEGIN OF BLOCK bl1 WITH FRAME TITLE TEXT-bl1.
+SELECT-OPTIONS s_bo_k FOR gs_log_selection-bo_key.
+SELECT-OPTIONS s_nd_k FOR gs_log_selection-node_key.
+SELECT-OPTIONS s_fldnm FOR gs_log_selection-field_name.
+SELECT-OPTIONS s_date FOR gs_log_selection-date DEFAULT sy-datum.
+SELECT-OPTIONS s_time FOR gs_log_selection-time.
+SELECT-OPTIONS s_new_v FOR gs_log_selection-new_value.
+SELECT-OPTIONS s_rec_k FOR gs_log_selection-record_key.
+SELECT-OPTIONS s_rt_k FOR gs_log_selection-root_key.
+SELECT-OPTIONS s_mainp FOR gs_log_selection-mainprogram.
+SELECT-OPTIONS s_incl FOR gs_log_selection-include.
+SELECT-OPTIONS s_line FOR gs_log_selection-line.
+SELECT-OPTIONS s_blckt FOR gs_log_selection-blocktype.
+SELECT-OPTIONS s_blckn FOR gs_log_selection-blockname.
+SELECT-OPTIONS s_c_mode FOR gs_log_selection-change_mode.
+SELECTION-SCREEN SKIP.
+SELECTION-SCREEN END OF BLOCK bl1.
+
+INITIALIZATION.
+*===================================================================
+  PERFORM initialization.
+
+*===================================================================
+AT SELECTION-SCREEN OUTPUT.
+*===================================================================
+  PERFORM pbo.
+
+*===================================================================
+AT SELECTION-SCREEN.
+*===================================================================
+  PERFORM pai.
+
+START-OF-SELECTION.
+  PERFORM selection.
+
+FORM initialization.
+*===================================================================
+
+  DATA ls_smp_dyntxt TYPE smp_dyntxt.
+*
+* set function key properties (display list of user-ids with active plug-in)
+  CLEAR ls_smp_dyntxt.
+  ls_smp_dyntxt-text      = TEXT-003.
+  ls_smp_dyntxt-icon_id   = icon_display.
+  ls_smp_dyntxt-icon_text = TEXT-004.
+  sscrfields-functxt_03   = ls_smp_dyntxt.
+
+* set function key properties (display maintenance view for bobf tracker settings)
+  CLEAR ls_smp_dyntxt.
+  ls_smp_dyntxt-text      = TEXT-002.
+  ls_smp_dyntxt-icon_id   = icon_edit_file.
+  ls_smp_dyntxt-icon_text = TEXT-011.
+  sscrfields-functxt_01   = ls_smp_dyntxt.
+
+ENDFORM.                    &quot;initialization
+
+FORM pbo.
+*===================================================================
+
+  DATA lv_is_active  TYPE abap_bool.
+  DATA ls_smp_dyntxt TYPE smp_dyntxt.
+  DATA lv_icon_id    TYPE smp_dyntxt-icon_id.
+  DATA lv_icon_text  TYPE smp_dyntxt-icon_text.
+
+* get activation status
+  SELECT  SINGLE config_active
+    INTO  lv_is_active
+    FROM  /bobf/frw_adnact
+    WHERE addon_name = zbobf_cl_change_tracker_adn=&gt;cv_addon_name
+      AND uname      = sy-uname.
+
+  IF sy-subrc = 0 AND lv_is_active = abap_true.
+    lv_icon_id   = icon_deactivate.
+    lv_icon_text = TEXT-008.
+  ELSE.
+    lv_icon_id = icon_activate.
+    lv_icon_text = TEXT-007.
+  ENDIF.
+
+* set function key properties (activate / deactivate)
+  CLEAR ls_smp_dyntxt.
+  ls_smp_dyntxt-text      = TEXT-009.
+  ls_smp_dyntxt-icon_id   = lv_icon_id.
+  ls_smp_dyntxt-icon_text = lv_icon_text.
+  sscrfields-functxt_02   = ls_smp_dyntxt.
+
+ENDFORM.
+
+FORM pai.
+*===================================================================
+
+  CASE sscrfields-ucomm.
+    WHEN &apos;FC01&apos;.
+*     transaction with BOBF track settings view
+      SELECT SINGLE * FROM zbobf_d_track INTO @DATA(lt_tab).
+      IF lt_tab IS INITIAL.
+        CALL TRANSACTION &apos;ZBOBF_TRACKER_CONFIG&apos;.
+      ELSE.
+        CALL TRANSACTION &apos;ZBOBF_TRACKER_CONFIG&apos; AND SKIP FIRST SCREEN.
+      ENDIF.
+      CLEAR lt_tab.
+    WHEN &apos;FC02&apos;.
+*     activate/diactivate
+      PERFORM bobf_change_tracker_activation.
+    WHEN &apos;FC03&apos;.
+*     list of user-ids with active plug-in
+      PERFORM list_display_activated_user.
+  ENDCASE.
+
+ENDFORM.
+
+FORM list_display_activated_user.
+*=======================================================================
+
+  DATA:
+    lt_list             TYPE /bobf/cl_frw_addon=&gt;tt_addon_activation,
+    lo_salv_table       TYPE REF TO cl_salv_table,
+    lo_columns          TYPE REF TO cl_salv_columns,
+    lo_display_settings TYPE REF TO cl_salv_display_settings,
+    lt_salv_column      TYPE salv_t_column_ref,
+    ls_salv_column      TYPE salv_s_column_ref,
+    lo_salv_column      TYPE REF TO cl_salv_column.
+
+
+  /bobf/cl_frw_addon=&gt;get_addon_activation(
+    EXPORTING
+      iv_addon_name       = zbobf_cl_change_tracker_adn=&gt;cv_addon_name
+    IMPORTING
+      et_addon_activation = lt_list ).
+
+  DELETE lt_list WHERE config_active = abap_false.
+
+  TRY.
+      cl_salv_table=&gt;factory(
+        IMPORTING
+          r_salv_table = lo_salv_table
+        CHANGING
+          t_table      = lt_list
+      ).
+
+      lo_columns = lo_salv_table-&gt;get_columns( ).
+      &quot; rename the columns
+      lt_salv_column = lo_columns-&gt;get( ).
+      LOOP AT lt_salv_column INTO ls_salv_column.
+        IF ls_salv_column-columnname &lt;&gt; &apos;UNAME&apos;.
+          ls_salv_column-r_column-&gt;set_technical( if_salv_c_bool_sap=&gt;true ).
+        ENDIF.
+      ENDLOOP.
+
+      lo_display_settings = lo_salv_table-&gt;get_display_settings( ).
+      lo_display_settings-&gt;set_list_header( TEXT-004 ).
+      lo_display_settings-&gt;set_striped_pattern( abap_true ).
+
+      lo_salv_table-&gt;set_screen_popup(
+          start_column = 20
+          end_column   = 100
+          start_line   = 3
+          end_line     = 35
+      ).
+
+      lo_salv_table-&gt;display( ).
+
+    CATCH cx_salv_msg.
+      RETURN.
+  ENDTRY.
+
+ENDFORM.                    &quot;list_display_activated_user
+
+FORM bobf_change_tracker_activation.
+*===================================================================
+
+  DATA:
+    ls_adnact        TYPE /bobf/frw_adnact,
+    ls_smp_dyntxt    TYPE smp_dyntxt,
+    lt_adnact_delete TYPE TABLE OF /bobf/frw_adnact,
+    lt_adnact_modify TYPE TABLE OF /bobf/frw_adnact,
+    ls_addon         TYPE /bobf/frw_addon,
+    lt_addon_modify  TYPE TABLE OF /bobf/frw_addon.
+
+  ls_smp_dyntxt = sscrfields-functxt_02.
+
+  SELECT * FROM /bobf/frw_addon INTO TABLE @DATA(lt_addon).
+
+  IF ls_smp_dyntxt-icon_id = icon_activate.
+    &quot; add record with our addon
+    ls_addon-addon_name = zbobf_cl_change_tracker_adn=&gt;cv_addon_name.
+    ls_addon-addon_class = zbobf_cl_change_tracker_adn=&gt;cv_addon_class.
+    ls_addon-configuration = lc_const_access.
+    ls_addon-activation = 1.
+    ls_addon-serv_mgr = lc_const_access.
+    ls_addon-int_access = lc_const_access.
+    APPEND ls_addon TO lt_addon_modify.
+  ENDIF.
+
+*   process possible conflicts for current user
+  CLEAR ls_adnact.
+  ls_adnact-addon_name = zbobf_cl_change_tracker_adn=&gt;cv_addon_name.
+  ls_adnact-uname = sy-uname.
+  IF ls_smp_dyntxt-icon_id = icon_activate.
+    SELECT * FROM /bobf/frw_adnact INTO TABLE @DATA(lt_adnact).
+*   find all conflicted addons and turn them off
+    LOOP AT lt_adnact ASSIGNING FIELD-SYMBOL(&lt;fs_adnact&gt;).
+      &quot; if that user will not be affected by this addon - continue
+      IF &lt;fs_adnact&gt;-uname &lt;&gt; sy-uname AND &lt;fs_adnact&gt; IS NOT INITIAL.
+        CONTINUE.
+      ENDIF.
+      READ TABLE lt_addon INTO ls_addon WITH KEY addon_name = &lt;fs_adnact&gt;-addon_name.
+      IF sy-subrc = 0.
+        &quot; constant access - deny by deleting user setting
+        IF ls_addon-serv_mgr = lc_const_access OR ls_addon-int_access = lc_const_access.
+          APPEND &lt;fs_adnact&gt; TO lt_adnact_delete.
+        ENDIF.
+        &quot; configurable access - deny by deleting user setting
+        IF ( ls_addon-serv_mgr = lc_configurable_access AND &lt;fs_adnact&gt;-serv_mgr_active = lc_const_access )
+        OR ( ls_addon-int_access = lc_configurable_access AND &lt;fs_adnact&gt;-int_access_active = lc_const_access ).
+          APPEND &lt;fs_adnact&gt; TO lt_adnact_delete.
+        ENDIF.
+      ENDIF.
+    ENDLOOP.
+* turn on our addon
+    ls_adnact-config_active = lc_const_access.
+    APPEND ls_adnact TO lt_adnact_modify.
+  ELSE.
+* turn off our addon
+    APPEND ls_adnact TO lt_adnact_delete.
+  ENDIF.
+
+  MODIFY /bobf/frw_addon FROM TABLE lt_addon_modify.
+  DELETE /bobf/frw_adnact FROM TABLE lt_adnact_delete.
+  MODIFY /bobf/frw_adnact FROM TABLE lt_adnact_modify.
+  CALL FUNCTION &apos;DB_COMMIT&apos;.
+
+ENDFORM. &quot; bobf_change_tracker_activation.
+
+FORM selection.
+
+  DATA:
+    lo_salv_table       TYPE REF TO cl_salv_table,
+    lo_display_settings TYPE REF TO cl_salv_display_settings,
+    lt_salv_column      TYPE salv_t_column_ref,
+    ls_salv_column      TYPE salv_s_column_ref,
+    lo_salv_column      TYPE REF TO cl_salv_column.
+
+  CONVERT DATE s_date-low
+          TIME s_time-low INTO TIME STAMP DATA(lv_low_ts) TIME ZONE sy-zonlo.
+  CONVERT DATE s_date-high
+          TIME s_time-high INTO TIME STAMP DATA(lv_high_ts) TIME ZONE sy-zonlo.
+  IF lv_high_ts IS INITIAL.
+    lv_high_ts = lc_highest_ts.
+  ENDIF.
+
+  SELECT * FROM zbobf_d_t_log INTO TABLE @DATA(lt_logs)
+    WHERE bo_key IN @s_bo_k[]
+      AND node_key IN @s_nd_k[]
+      AND field_name IN @s_fldnm[]
+      AND operation_time &gt;= @lv_low_ts
+      AND operation_time &lt;= @lv_high_ts
+      AND new_value IN @s_new_v[]
+      AND record_key IN @s_rec_k[]
+      AND root_key IN @s_rt_k[]
+      AND mainprogram IN @s_mainp[]
+      AND include IN @s_incl[]
+      AND line IN @s_line[]
+      AND blocktype IN @s_blckt[]
+      AND blockname IN @s_blckn[]
+      AND change_mode IN @s_c_mode[].
+
+  TRY.
+      cl_salv_table=&gt;factory(
+        IMPORTING
+          r_salv_table = lo_salv_table
+        CHANGING
+          t_table      = lt_logs
+      ).
+
+      DATA(lo_functions) = lo_salv_table-&gt;get_functions( ).
+      lo_functions-&gt;set_all( abap_true ).
+
+      DATA(lo_display) = lo_salv_table-&gt;get_display_settings( ).
+
+      DATA(lo_columns) = lo_salv_table-&gt;get_columns( ).
+      DATA(lo_column) = lo_columns-&gt;get_column( &apos;FIELD_NAME&apos; ).
+      lo_column-&gt;set_output_length( 20 ).
+
+      lo_column = lo_columns-&gt;get_column( &apos;NEW_VALUE&apos; ).
+      lo_column-&gt;set_long_text( &apos;New value&apos; ).
+      lo_column-&gt;set_output_length( 20 ).
+
+      lo_column = lo_columns-&gt;get_column( &apos;ROOT_KEY&apos; ).
+      lo_column-&gt;set_long_text( &apos;Root key&apos; ).
+      lo_column-&gt;set_output_length( 20 ).
+
+      lo_column = lo_columns-&gt;get_column( &apos;LINE&apos; ).
+      lo_column-&gt;set_long_text( &apos;Line&apos; ).
+      lo_column-&gt;set_output_length( 4 ).
+
+      lo_column = lo_columns-&gt;get_column( &apos;BLOCKTYPE&apos; ).
+      lo_column-&gt;set_long_text( &apos;Block type&apos; ).
+      lo_column-&gt;set_output_length( 10 ).
+
+      lo_column = lo_columns-&gt;get_column( &apos;BLOCKNAME&apos; ).
+      lo_column-&gt;set_long_text( &apos;Block name&apos; ).
+      lo_column-&gt;set_output_length( 40 ).
+
+      lo_column = lo_columns-&gt;get_column( &apos;CHANGE_MODE&apos; ).
+      lo_column-&gt;set_long_text( &apos;Change mode&apos; ).
+      lo_column-&gt;set_output_length( 11 ).
+
+      lo_column = lo_columns-&gt;get_column( &apos;MANDT&apos; ).
+      lo_column-&gt;set_visible( value = if_salv_c_bool_sap=&gt;false ).
+
+      lo_column = lo_columns-&gt;get_column( &apos;LOG_KEY&apos; ).
+      lo_column-&gt;set_visible( value = if_salv_c_bool_sap=&gt;false ).
+
+      lo_display_settings = lo_salv_table-&gt;get_display_settings( ).
+      lo_display_settings-&gt;set_list_header( TEXT-001 ).
+      lo_display_settings-&gt;set_striped_pattern( abap_true ).
+
+      DATA(lo_sorts) = lo_salv_table-&gt;get_sorts( ).
+      lo_sorts-&gt;add_sort( columnname = &apos;OPERATION_TIME&apos; ).
+
+      lo_salv_table-&gt;display( ).
+
+    CATCH cx_salv_msg cx_salv_not_found cx_salv_data_error cx_salv_existing.
+      RETURN.
+  ENDTRY.
+
+ENDFORM.                    &quot;selection</source>
+ </PROG>
+ <TABL TABNAME="ZBOBF_D_TRACK" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="BOPF Change tracker settings" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="A" PROZPUFF="000" EXCLASS="4">
+  <dd09l TABNAME="ZBOBF_D_TRACK" AS4LOCAL="A" AS4VERS="0000" TABKAT="2" TABART="APPL1" SCHFELDANZ="000" BUFALLOW="N" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="UNAME" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="SYST_UNAME" ADMINFIELD="0" INTTYPE="C" INTLEN="000024" NOTNULL="X" DOMNAME="SYCHAR12" ROUTPUTLEN="000000" HEADLEN="12" SCRLEN1="10" SCRLEN2="18" SCRLEN3="18" DTELMASTER="D" DATATYPE="CHAR" LENG="000012" OUTPUTLEN="000012" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="ABAP System Field: Name of Current User" REPTEXT="User" SCRTEXT_S="User" SCRTEXT_M="User Name" SCRTEXT_L="User Name" DOMNAME3L="SYCHAR12" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="BO_KEY" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="ZBOBF_TRACKER_BO_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" NOTNULL="X" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="06" SCRLEN1="06" SCRLEN2="06" SCRLEN3="06" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker bo key" REPTEXT="BO key" SCRTEXT_S="BO key" SCRTEXT_M="BO key" SCRTEXT_L="BO key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="NODE_KEY" DDLANGUAGE="E" POSITION="0004" KEYFLAG="X" ROLLNAME="ZBOBF_TRACKER_NODE_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" NOTNULL="X" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="08" SCRLEN1="08" SCRLEN2="08" SCRLEN3="08" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker node key" REPTEXT="Node key" SCRTEXT_S="Node key" SCRTEXT_M="Node key" SCRTEXT_L="Node key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="RECORD_KEY" DDLANGUAGE="E" POSITION="0005" KEYFLAG="X" ROLLNAME="ZBOBF_TRACKER_RECORD_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" NOTNULL="X" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker record key" REPTEXT="Record key" SCRTEXT_S="Record key" SCRTEXT_M="Record key" SCRTEXT_L="Record key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="FIELD_NAME" DDLANGUAGE="E" POSITION="0006" KEYFLAG="X" ROLLNAME="/BOFU/FIELD_NAME" ADMINFIELD="0" INTTYPE="C" INTLEN="000510" NOTNULL="X" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="E" DATATYPE="CHAR" LENG="000255" OUTPUTLEN="000255" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Field Name" REPTEXT="Field Name" SCRTEXT_S="Field Name" SCRTEXT_M="Field Name" SCRTEXT_L="Field Name" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="TRACK_CREATE" DDLANGUAGE="E" POSITION="0007" ROLLNAME="ZBOBF_TRACKER_FLAG_CREATE" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" NOTNULL="X" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="BOBF tracker create flag" REPTEXT="Track create" SCRTEXT_S="On Create" SCRTEXT_M="Track create" SCRTEXT_L="Track create" DOMNAME3L="FLAG" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="TRACK_DELETE" DDLANGUAGE="E" POSITION="0008" ROLLNAME="ZBOBF_TRACKER_FLAG_DELETE" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" NOTNULL="X" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="BOBF tracker delete flag" REPTEXT="Track delete" SCRTEXT_S="On Delete" SCRTEXT_M="Track delete" SCRTEXT_L="Track delete" DOMNAME3L="FLAG" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="TRACK_UPDATE" DDLANGUAGE="E" POSITION="0009" ROLLNAME="ZBOBF_TRACKER_FLAG_UPDATE" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" NOTNULL="X" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="BOBF tracker update flag" REPTEXT="Track update" SCRTEXT_S="On Update" SCRTEXT_M="Track update" SCRTEXT_L="Track update" DOMNAME3L="FLAG" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_TRACK" FIELDNAME="WATCHP_ENABLE" DDLANGUAGE="E" POSITION="0010" ROLLNAME="ZBOBF_TRACKER_FLAG_WATCHPOINT" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" NOTNULL="X" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="BOBF tracker watchpoints enable flag" REPTEXT="Watchpoints enable" SCRTEXT_S="Watchpoint" SCRTEXT_M="Watchpoints enable" SCRTEXT_L="Watchpoints enable" DOMNAME3L="FLAG" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+ </TABL>
+ <TABL TABNAME="ZBOBF_D_T_LOG" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="BOPF tracked changes" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="A" PROZPUFF="000" EXCLASS="4">
+  <dd09l TABNAME="ZBOBF_D_T_LOG" AS4LOCAL="A" AS4VERS="0000" TABKAT="2" TABART="APPL1" SCHFELDANZ="000" BUFALLOW="N" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="LOG_KEY" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="ZBOBF_TRACKER_LOG_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" NOTNULL="X" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker log record key" REPTEXT="Log key" SCRTEXT_S="Log key" SCRTEXT_M="Log key" SCRTEXT_L="Log key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="BO_KEY" DDLANGUAGE="E" POSITION="0003" ROLLNAME="ZBOBF_TRACKER_BO_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" NOTNULL="X" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="06" SCRLEN1="06" SCRLEN2="06" SCRLEN3="06" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker bo key" REPTEXT="BO key" SCRTEXT_S="BO key" SCRTEXT_M="BO key" SCRTEXT_L="BO key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="NODE_KEY" DDLANGUAGE="E" POSITION="0004" ROLLNAME="ZBOBF_TRACKER_NODE_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" NOTNULL="X" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="08" SCRLEN1="08" SCRLEN2="08" SCRLEN3="08" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker node key" REPTEXT="Node key" SCRTEXT_S="Node key" SCRTEXT_M="Node key" SCRTEXT_L="Node key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="FIELD_NAME" DDLANGUAGE="E" POSITION="0005" ROLLNAME="/BOFU/FIELD_NAME" ADMINFIELD="0" INTTYPE="C" INTLEN="000510" NOTNULL="X" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="E" DATATYPE="CHAR" LENG="000255" OUTPUTLEN="000255" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Field Name" REPTEXT="Field Name" SCRTEXT_S="Field Name" SCRTEXT_M="Field Name" SCRTEXT_L="Field Name" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="OPERATION_TIME" DDLANGUAGE="E" POSITION="0006" ROLLNAME="ZBOBF_TRACKER_TIME" ADMINFIELD="0" INTTYPE="P" INTLEN="000008" NOTNULL="X" DOMNAME="ZBOBF_TIMESTAMP" ROUTPUTLEN="000000" HEADLEN="19" SCRLEN1="10" SCRLEN2="19" SCRLEN3="19" DTELMASTER="E" DATATYPE="DEC" LENG="000015" OUTPUTLEN="000019" DECIMALS="000000" CONVEXIT="TSTLC" MASK="  DEC E" MASKLEN="0000" DDTEXT="Operation Time" REPTEXT="Operation Time" SCRTEXT_S="Oper. time" SCRTEXT_M="Operation Time" SCRTEXT_L="Operation Time" DOMMASTER="D" DOMNAME3L="ZBOBF_TIMESTAMP" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="NEW_VALUE" DDLANGUAGE="E" POSITION="0007" ROLLNAME="CHAR80" ADMINFIELD="0" INTTYPE="C" INTLEN="000160" NOTNULL="X" DOMNAME="CHAR80" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DATATYPE="CHAR" LENG="000080" OUTPUTLEN="000080" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Char 80" REPTEXT="Char80" SCRTEXT_S="Char80" SCRTEXT_M="Char80" SCRTEXT_L="Char80" DOMNAME3L="CHAR80" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="RECORD_KEY" DDLANGUAGE="E" POSITION="0008" ROLLNAME="ZBOBF_TRACKER_RECORD_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" NOTNULL="X" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker record key" REPTEXT="Record key" SCRTEXT_S="Record key" SCRTEXT_M="Record key" SCRTEXT_L="Record key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="ROOT_KEY" DDLANGUAGE="E" POSITION="0009" ROLLNAME="/BOBF/CONF_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" NOTNULL="X" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="NodeID" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="MAINPROGRAM" DDLANGUAGE="E" POSITION="0010" ROLLNAME="SYREPID" ADMINFIELD="0" INTTYPE="C" INTLEN="000080" NOTNULL="X" DOMNAME="PROGRAMM" ROUTPUTLEN="000000" HEADLEN="08" SCRLEN1="10" SCRLEN2="20" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000040" OUTPUTLEN="000040" DECIMALS="000000" ENTITYTAB="TRDIR" MASK="  CHARE" MASKLEN="0000" DDTEXT="ABAP Program: Current Master Program" REPTEXT="Program" SCRTEXT_S="Program" SCRTEXT_M="Program Name" SCRTEXT_L="Program Name" DOMNAME3L="PROGRAMM" DEPTH="00" COMPTYPE="E" DEFFDNAME="PROGRAM_NAME" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="INCLUDE" DDLANGUAGE="E" POSITION="0011" ROLLNAME="INCLUDE" ADMINFIELD="0" INTTYPE="C" INTLEN="000080" NOTNULL="X" DOMNAME="PROGNAME" ROUTPUTLEN="000000" HEADLEN="08" SCRLEN1="10" SCRLEN2="00" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000040" OUTPUTLEN="000040" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="INCLUDE used" REPTEXT="Include" SCRTEXT_S="Include" SCRTEXT_L="INCLUDE used" DOMNAME3L="PROGNAME" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="LINE" DDLANGUAGE="E" POSITION="0012" ROLLNAME="INT4" ADMINFIELD="0" INTTYPE="X" INTLEN="000004" NOTNULL="X" DOMNAME="INT4" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="INT4" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000" SIGNFLAG="X" MASK="  INT4E" MASKLEN="0000" DDTEXT="Natural number" REPTEXT="Natural Number" SCRTEXT_S="Number" SCRTEXT_M="Number" SCRTEXT_L="Natural number" DOMNAME3L="INT4" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="BLOCKTYPE" DDLANGUAGE="E" POSITION="0013" ROLLNAME="CHAR12" ADMINFIELD="0" INTTYPE="C" INTLEN="000024" NOTNULL="X" DOMNAME="CHAR12" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" DTELMASTER="D" DATATYPE="CHAR" LENG="000012" OUTPUTLEN="000012" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Character Field of Length 12" DOMNAME3L="CHAR12" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="BLOCKNAME" DDLANGUAGE="E" POSITION="0014" ROLLNAME="CHAR100" ADMINFIELD="0" INTTYPE="C" INTLEN="000200" NOTNULL="X" DOMNAME="CHAR100" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" DATATYPE="CHAR" LENG="000100" OUTPUTLEN="000100" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Character 100" DOMNAME3L="CHAR100" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_D_T_LOG" FIELDNAME="CHANGE_MODE" DDLANGUAGE="E" POSITION="0015" ROLLNAME="/BOBF/CONF_CHANGE_MODE" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" NOTNULL="X" DOMNAME="/BOBF/CONF_CHANGE_MODE" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="04" SCRLEN2="07" SCRLEN3="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="Change category" SCRTEXT_S="Chg." SCRTEXT_M="ChgCat." DOMNAME3L="/BOBF/CONF_CHANGE_MODE" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+ </TABL>
+ <TABL TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" DDLANGUAGE="E" TABCLASS="INTTAB" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" DDTEXT="BOPF Change tracker settings" AUTHCLASS="00" PROZPUFF="000" EXCLASS="4">
+  <dd09l AS4VERS="0000" SCHFELDANZ="000"/>
+  <dd03p TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" FIELDNAME="UNAME" DDLANGUAGE="E" POSITION="0001" ROLLNAME="SYST_UNAME" ADMINFIELD="0" INTTYPE="C" INTLEN="000024" DOMNAME="SYCHAR12" ROUTPUTLEN="000000" HEADLEN="12" SCRLEN1="10" SCRLEN2="18" SCRLEN3="18" DTELMASTER="D" DATATYPE="CHAR" LENG="000012" OUTPUTLEN="000012" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="ABAP System Field: Name of Current User" REPTEXT="User" SCRTEXT_S="User" SCRTEXT_M="User Name" SCRTEXT_L="User Name" DOMNAME3L="SYCHAR12" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" FIELDNAME="BO_KEY" DDLANGUAGE="E" POSITION="0002" ROLLNAME="ZBOBF_TRACKER_BO_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="06" SCRLEN1="06" SCRLEN2="06" SCRLEN3="06" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker bo key" REPTEXT="BO key" SCRTEXT_S="BO key" SCRTEXT_M="BO key" SCRTEXT_L="BO key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" FIELDNAME="NODE_KEY" DDLANGUAGE="E" POSITION="0003" ROLLNAME="ZBOBF_TRACKER_NODE_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="08" SCRLEN1="08" SCRLEN2="08" SCRLEN3="08" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker node key" REPTEXT="Node key" SCRTEXT_S="Node key" SCRTEXT_M="Node key" SCRTEXT_L="Node key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" FIELDNAME="RECORD_KEY" DDLANGUAGE="E" POSITION="0004" ROLLNAME="ZBOBF_TRACKER_RECORD_KEY" ADMINFIELD="0" INTTYPE="X" INTLEN="000016" DOMNAME="/BOBF/CONF_KEY" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DTELMASTER="E" DATATYPE="RAW" LENG="000016" OUTPUTLEN="000032" DECIMALS="000000" MASK="  RAW E" MASKLEN="0000" DDTEXT="BOBF tracker record key" REPTEXT="Record key" SCRTEXT_S="Record key" SCRTEXT_M="Record key" SCRTEXT_L="Record key" DOMNAME3L="/BOBF/CONF_KEY" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" FIELDNAME="FIELD_NAME" DDLANGUAGE="E" POSITION="0005" ROLLNAME="/BOFU/FIELD_NAME" ADMINFIELD="0" INTTYPE="C" INTLEN="000510" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="E" DATATYPE="CHAR" LENG="000255" OUTPUTLEN="000255" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Field Name" REPTEXT="Field Name" SCRTEXT_S="Field Name" SCRTEXT_M="Field Name" SCRTEXT_L="Field Name" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" FIELDNAME="TRACK_CREATE" DDLANGUAGE="E" POSITION="0006" ROLLNAME="ZBOBF_TRACKER_FLAG_CREATE" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="BOBF tracker create flag" REPTEXT="Track create" SCRTEXT_S="On Create" SCRTEXT_M="Track create" SCRTEXT_L="Track create" DOMNAME3L="FLAG" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" FIELDNAME="TRACK_DELETE" DDLANGUAGE="E" POSITION="0007" ROLLNAME="ZBOBF_TRACKER_FLAG_DELETE" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="BOBF tracker delete flag" REPTEXT="Track delete" SCRTEXT_S="On Delete" SCRTEXT_M="Track delete" SCRTEXT_L="Track delete" DOMNAME3L="FLAG" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" FIELDNAME="TRACK_UPDATE" DDLANGUAGE="E" POSITION="0008" ROLLNAME="ZBOBF_TRACKER_FLAG_UPDATE" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="BOBF tracker update flag" REPTEXT="Track update" SCRTEXT_S="On Update" SCRTEXT_M="Track update" SCRTEXT_L="Track update" DOMNAME3L="FLAG" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+  <dd03p TABNAME="ZBOBF_S_CHANGE_TRACKER_SET" FIELDNAME="WATCHP_ENABLE" DDLANGUAGE="E" POSITION="0009" ROLLNAME="ZBOBF_TRACKER_FLAG_WATCHPOINT" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="BOBF tracker watchpoints enable flag" REPTEXT="Watchpoints enable" SCRTEXT_S="Watchpoint" SCRTEXT_M="Watchpoints enable" SCRTEXT_L="Watchpoints enable" DOMNAME3L="FLAG" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00"/>
+ </TABL>
+ <TTYP TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" DDLANGUAGE="E" ROWTYPE="ZBOBF_S_CHANGE_TRACKER_SET" ROWKIND="S" DATATYPE="STRU" LENG="000000" DECIMALS="000000" ACCESSMODE="T" KEYDEF="D" KEYKIND="N" KEYFDCOUNT="0007" DDTEXT="BOPF Change Log settings" TYPELEN="000590" CTLENG="000000" CTDECIMALS="000000" OCCURS="00000">
+  <dd42v TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" SECKEYNAME="NODE" KEYFDPOS="0001" ROWTYPEPOS="0001" KEYFIELD="UNAME"/>
+  <dd42v TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" SECKEYNAME="NODE_FIELD" KEYFDPOS="0001" ROWTYPEPOS="0001" KEYFIELD="UNAME"/>
+  <dd42v TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" SECKEYNAME="NODE" KEYFDPOS="0002" ROWTYPEPOS="0002" KEYFIELD="BO_KEY"/>
+  <dd42v TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" SECKEYNAME="NODE_FIELD" KEYFDPOS="0002" ROWTYPEPOS="0002" KEYFIELD="BO_KEY"/>
+  <dd42v TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" SECKEYNAME="NODE" KEYFDPOS="0003" ROWTYPEPOS="0003" KEYFIELD="NODE_KEY"/>
+  <dd42v TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" SECKEYNAME="NODE_FIELD" KEYFDPOS="0003" ROWTYPEPOS="0003" KEYFIELD="NODE_KEY"/>
+  <dd42v TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" SECKEYNAME="NODE_FIELD" KEYFDPOS="0004" ROWTYPEPOS="0005" KEYFIELD="FIELD_NAME"/>
+  <dd43v TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" SECKEYNAME="NODE" DDLANGUAGE="E" ACCESSMODE="S" KIND="K" KEYDESCRIPTION="Node change settings"/>
+  <dd43v TYPENAME="ZBOBF_T_CHANGE_TRACKER_SET" SECKEYNAME="NODE_FIELD" DDLANGUAGE="E" SECKEYUNIQUE="X" ACCESSMODE="S" KIND="K" KEYDESCRIPTION="Node + field_name"/>
+ </TTYP>
+</nugget>
