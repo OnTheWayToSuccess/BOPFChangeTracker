@@ -1,0 +1,10 @@
+You can use SAPLink, to install CT, by importing NUGG_ZBOBF_TRACKER_SAPLINK.nugg.
+Link to user documentation - https://wiki.scn.sap.com/wiki/display/ABAP/SAPlink+User+Documentation
+Initial namespace - ZBOBF*
+Manual part of installation:
+Start transaction SE93 and create transaction ZBOBF_TRACKER_CONFIG as Transaction with parameters(parameter transaction).
+	- Default value for transaction: SE16
+	- Default parameters:
+		Name of screen field: DATABROWSE-TABLENAME, Value: ZBOBF_D_TRACK
+		Name of screen field: CALLING_TRANSACTION, Value: X
+	Activate, assign ZBOBF_TRACKER_CONFIG to package ZBOBF_TRACKER and leave the transaction.
