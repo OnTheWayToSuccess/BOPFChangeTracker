@@ -4,7 +4,7 @@ BOPF Change tracker is a tool which allows you to track any changes of any data 
 Ways for installation:  
 1. by ACP tool.  
 2. manuall installation, in this way you should create DDIC, report and class manually. Files with source code for Addon class/report inside the folder.  
-3. Using SAPLINK + a bit manuall installation.
+3. Using SAPLINK + some minor points like creation of transaction.
 
 # TODO:
 Write a guide how to track node change without CT installation using standard watch points in BOPF Test UI.  
