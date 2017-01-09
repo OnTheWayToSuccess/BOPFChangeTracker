@@ -3,7 +3,7 @@ BOPF Change tracker is a tool which allows you to track any changes of any data 
 
 Ways for installation:  
 1. by ACP tool.  
-2. manuall installation, in this way you should create DDIC, report and class manually. Files with source code for Addon class/report inside the folder. 
+2. manuall installation, in this way you should create DDIC, report and class manually. Files with source code for Addon class/report inside the folder.  
 3. Using SAPLINK + a bit manuall installation.
 
 # TODO:
