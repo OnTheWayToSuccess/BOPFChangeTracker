@@ -6,5 +6,5 @@ Ways for installation:
 2. manuall installation, in this way you should create DDIC, report and class manually. Files with source code for Addon class/report inside the folder.  
 3. Using SAPLINK + some minor points like creation of transaction.
 
-# I need to find where any Node is changed, but I have no time to install CT:
+# I need to find where any Node records are changed, but I have no time to install CT:
 This is possible. Open file "How to track data changes in BOPF" and follow up with instructions inside.
